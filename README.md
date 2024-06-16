@@ -28,7 +28,7 @@ Add the following dependency to your `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  reactive: ^1.0.0
+  reactive_notify: ^1.0.0
 ```
 
 ## Usage
