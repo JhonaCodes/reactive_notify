@@ -315,13 +315,15 @@ class MyApp extends StatelessWidget {
 ```
 
 ## Visual State
-<a href="https://github.com/JhonaCodes/reactive_notify/assets/53523825/23d59bca-3056-4ebc-99f1-7f8c4d11c0f4"><img src="https://github.com/JhonaCodes/reactive_notify/assets/53523825/0fe206c0-3d63-4fc0-9516-b76c320110a8"></p></a>
 
+![Example reactive state](https://github.com/JhonaCodes/reactive_notify/assets/53523825/70222473-b7eb-4a92-9a81-68a62f4be58e?raw=true)
 
 ## Simple performance test.
 It is possibly not the best test, but it generates a general idea.
+![Example reactive state](https://github.com/JhonaCodes/reactive_notify/assets/53523825/10720b63-ed0e-42b4-85e7-8853654308c0?raw=true)
 
-<a href="https://github.com/JhonaCodes/reactive_notify/assets/53523825/05c62561-883c-4ff0-9a4a-7334c2a2d2f5"><img src="https://github.com/JhonaCodes/reactive_notify/assets/53523825/0fe206c0-3d63-4fc0-9516-b76c320110a8"></p></a>
+
+
 
 
 
