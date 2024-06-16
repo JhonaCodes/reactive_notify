@@ -28,7 +28,7 @@ Add the following dependency to your `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  reactive_notify: ^1.0.0
+  reactive_notify: ^1.0.1
 ```
 
 ## Usage
@@ -171,8 +171,8 @@ final reactiveConnectionState = ReactiveState<ConnectionState>(() {
 });
 
 
-/// Test for current state [ReactiveStateCallback].
-final reactiveCallbackConnectionState = ReactiveStateCallback<ConnectionState>(
+/// Test for current state [ReactiveNotifyCallback].
+final reactiveCallbackConnectionState = ReactiveNotifyCallback<ConnectionState>(
   ConnectionState.waiting,
   onStateChange: (value) {
     /// You can put any validation or use another Reactive functions.
@@ -185,7 +185,7 @@ final reactiveCallbackConnectionState = ReactiveStateCallback<ConnectionState>(
 );
 
 
-/// Test for current state [ReactiveStateInitializerCallback].
+/// Test for current state [ReactiveNotifyInitializerCallback].
 final reactiveStateInitializerCallback = ReactiveStateInitializerCallback<ConnectionState>(initializer: () {
   if (reactiveConnectionState.value == ConnectionState.signalOff ||
       reactiveCallbackConnectionState.value == ConnectionState.error) {

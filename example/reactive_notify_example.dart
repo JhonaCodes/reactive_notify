@@ -21,8 +21,8 @@ final reactiveConnectionState = ReactiveState<ConnectionState>(() {
   return ConnectionState.signalOff;
 });
 
-/// Test for current state [ReactiveStateCallback].
-final reactiveCallbackConnectionState = ReactiveStateCallback<ConnectionState>(
+/// Test for current state [ReactiveNotifyCallback].
+final reactiveCallbackConnectionState = ReactiveNotifyCallback<ConnectionState>(
   ConnectionState.waiting,
   onStateChange: (value) {
     /// You can put any validation or use another Reactive functions.
@@ -34,9 +34,9 @@ final reactiveCallbackConnectionState = ReactiveStateCallback<ConnectionState>(
   },
 );
 
-/// Test for current state [ReactiveStateInitializerCallback].
+/// Test for current state [ReactiveNotifyInitializerCallback].
 final reactiveStateInitializerCallback =
-    ReactiveStateInitializerCallback<ConnectionState>(initializer: () {
+    ReactiveNotifyInitializerCallback<ConnectionState>(initializer: () {
   if (reactiveConnectionState.value == ConnectionState.signalOff ||
       reactiveCallbackConnectionState.value == ConnectionState.error) {
     return ConnectionState.errorOnSynchronized;
