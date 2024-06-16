@@ -2,7 +2,7 @@ import 'package:reactive_notify/reactive_notify.dart';
 import 'package:test/test.dart';
 
 void main() {
-  group('ReactiveStateInitializerCallback', () {
+  group('ReactiveNotifyInitializerCallback', () {
     test('should initialize with initializer function', () {
       final state = ReactiveNotifyInitializerCallback<int>(
         initializer: () => 0,

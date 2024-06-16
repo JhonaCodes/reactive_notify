@@ -37,8 +37,8 @@ dependencies:
 ```dart
 import 'package:reactive_notify/reactive_notify.dart';
 
-  ReactiveState<int> _state1 = ReactiveState<int>(() => 0);
-  ReactiveState<int> _state2 = ReactiveState<int>(() => 1);
+  ReactiveNotify<int> _state1 = ReactiveNotify<int>(() => 0);
+  ReactiveNotify<int> _state2 = ReactiveNotify<int>(() => 1);
 
 void main() {
 
@@ -59,7 +59,7 @@ Use `ReactiveBuilder` to build widgets that react to state changes.
 import 'package:flutter/material.dart';
 import 'package:reactive/reactive_notify.dart';
 
-ReactiveState<int> state = ReactiveState<int>(() => 0);
+ReactiveNotify<int> state = ReactiveNotify<int>(() => 0);
 
 void main() {
   runApp(MyApp());
@@ -95,7 +95,7 @@ class MyApp extends StatelessWidget {
 
 I recommend declaring your reactive states as global variables.
 YOU DON'T NEED TO USE THEM IN THE BUILDER, if you want to use them only for one class,
-use a hidden global variable, `ReactiveState<int> _myLocalVariable = ReactiveState<int>(0)`
+use a hidden global variable, `ReactiveNotify<int> _myLocalVariable = ReactiveNotify<int>(0)`
 
 ### Resetting State
 
@@ -108,15 +108,15 @@ print(state.value); // Output: initial value
 
 ## API Reference
 
-### `ReactiveState`
+### `ReactiveNotify`
 
 #### Constructor
 
 ```dart
-factory ReactiveState(T Function() initialValue)
+factory ReactiveNotify(T Function() initialValue)
 ```
 
-Creates a new instance of `ReactiveState` with a unique key and an initial value.
+Creates a new instance of `ReactiveNotify` with a unique key and an initial value.
 
 #### Methods
 
@@ -163,8 +163,8 @@ enum ConnectionState {
 }
 
 
-/// Test for current state [ReactiveState].
-final reactiveConnectionState = ReactiveState<ConnectionState>(() {
+/// Test for current state [ReactiveNotify].
+final reactiveConnectionState = ReactiveNotify<ConnectionState>(() {
   /// You can put any code for initial value.
   return ConnectionState.signalOff;
 });
@@ -185,7 +185,7 @@ final reactiveCallbackConnectionState = ReactiveNotifyCallback<ConnectionState>(
 
 
 /// Test for current state [ReactiveNotifyInitializerCallback].
-final reactiveStateInitializerCallback = ReactiveStateInitializerCallback<ConnectionState>(initializer: () {
+final reactiveStateInitializerCallback = ReactiveNotifyInitializerCallback<ConnectionState>(initializer: () {
   if (reactiveConnectionState.value == ConnectionState.signalOff ||
       reactiveCallbackConnectionState.value == ConnectionState.error) {
     return ConnectionState.errorOnSynchronized;
@@ -229,7 +229,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('ReactiveState'),
+        title: const Text('ReactiveNotify'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
@@ -237,7 +237,7 @@ class MyApp extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            /// 1. [ReactiveState] Current connection state
+            /// 1. [ReactiveNotify] Current connection state
             ReactiveBuilder(
               valueListenable: reactiveConnectionState,
               builder: (context, state) {
@@ -304,7 +304,7 @@ class MyApp extends StatelessWidget {
           /// Try to synchronizing butt first make a internal validation
           reactiveStateInitializerCallback.setState(ConnectionState.synchronizing);
         },
-        child: const Text('ReactiveState'),
+        child: const Text('ReactiveNotify'),
       ),
 
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

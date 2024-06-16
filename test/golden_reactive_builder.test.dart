@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:reactive_notify/reactive_notify.dart';
 
-ReactiveState<int> state = ReactiveState<int>(() => 0);
+ReactiveNotify<int> state = ReactiveNotify<int>(() => 0);
 
 void main() {
   group('ReactiveBuilder Golden Tests', () {
@@ -23,7 +23,7 @@ void main() {
                   }
 
                   return ListTile(
-                    title: Text('ReactiveState.value = $value'),
+                    title: Text('ReactiveNotify.value = $value'),
                   );
                 }),
           ),
@@ -46,7 +46,7 @@ void main() {
                     state.setState(200);
                   }
                   return ListTile(
-                    title: Text('ReactiveState.value = $value'),
+                    title: Text('ReactiveNotify.value = $value'),
                   );
                 }),
           ),

@@ -15,8 +15,8 @@ enum ConnectionState {
   waitingForSynchronization
 }
 
-/// Test for current state [ReactiveState].
-final reactiveConnectionState = ReactiveState<ConnectionState>(() {
+/// Test for current state [ReactiveNotify].
+final reactiveConnectionState = ReactiveNotify<ConnectionState>(() {
   /// You can put any code for initial value.
   return ConnectionState.signalOff;
 });
@@ -76,7 +76,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('ReactiveState'),
+        title: const Text('ReactiveNotify'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
@@ -84,7 +84,7 @@ class MyApp extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            /// 1. [ReactiveState] Current connection state
+            /// 1. [ReactiveNotify] Current connection state
             ReactiveBuilder(
               valueListenable: reactiveConnectionState,
               builder: (context, state) {
@@ -153,7 +153,7 @@ class MyApp extends StatelessWidget {
           reactiveStateInitializerCallback
               .setState(ConnectionState.synchronizing);
         },
-        child: const Text('ReactiveState'),
+        child: const Text('ReactiveNotify'),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );

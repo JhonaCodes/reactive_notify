@@ -4,13 +4,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:reactive_notify/src/singleton_states.dart';
 
-/// [ReactiveBuilder] is a widget that listens to a [ReactiveState] and rebuilds itself
+/// [ReactiveBuilder] is a widget that listens to a [ReactiveNotify] and rebuilds itself
 /// whenever the value changes. It also provides an option to reset the state to its default
 /// value when the widget is disposed.
 ///
 /// Example usage:
 /// ```dart
-/// final connectionState = ReactiveState<ConnectionElement>(() => ConnectionElement.connected);
+/// final connectionState = ReactiveNotify<ConnectionElement>(() => ConnectionElement.connected);
 ///
 /// ReactiveBuilder<ConnectionElement>(
 ///   valueListenable: connectionState,
@@ -28,9 +28,9 @@ import 'package:reactive_notify/src/singleton_states.dart';
 /// );
 /// ```
 class ReactiveBuilder<T> extends StatefulWidget {
-  /// The [ReactiveState] whose value you depend on in order to build.
+  /// The [ReactiveNotify] whose value you depend on in order to build.
   ///
-  /// This widget does not ensure that the [ReactiveState]'s value is not
+  /// This widget does not ensure that the [ReactiveNotify]'s value is not
   /// null, therefore your [builder] may need to handle null values.
   final ValueListenable<T> valueListenable;
 
