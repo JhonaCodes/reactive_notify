@@ -2,10 +2,10 @@
 
 [![Dart 3](https://img.shields.io/badge/Dart-3%2B-blue.svg)](https://dart.dev/)
 [![Flutter 3.10](https://img.shields.io/badge/Flutter-3%2B-blue.svg)](https://flutter.dev/)
-[![Pub Package](https://img.shields.io/pub/v/reactive.svg)](https://pub.dev/packages/info_label)
+[![Pub Package](https://img.shields.io/pub/v/reactive_notify.svg)](https://pub.dev/packages/info_label)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-![reactive_state](https://github.com/JhonaCodes/reactive/assets/53523825/0fe206c0-3d63-4fc0-9516-b76c320110a8)
+![reactive_state](https://github.com/JhonaCodes/reactive_notify/assets/53523825/0fe206c0-3d63-4fc0-9516-b76c320110a8)
 
 
 A Flutter library for managing reactive state efficiently, supporting multiple independent instances with unique keys.
@@ -315,14 +315,18 @@ class MyApp extends StatelessWidget {
 ```
 
 ## Visual State
-
-https://github.com/JhonaCodes/reactive/assets/53523825/d5052146-7b2c-40f2-97c3-1017fd716722
+<a href="https://github.com/JhonaCodes/reactive_notify/assets/53523825/23d59bca-3056-4ebc-99f1-7f8c4d11c0f4"><img src="https://github.com/JhonaCodes/reactive_notify/assets/53523825/0fe206c0-3d63-4fc0-9516-b76c320110a8"></p></a>
 
 
 ## Simple performance test.
 It is possibly not the best test, but it generates a general idea.
 
-https://github.com/JhonaCodes/reactive/assets/53523825/102f8d2a-d21b-4e40-b04f-c6313083ae57
+<a href="https://github.com/JhonaCodes/reactive_notify/assets/53523825/05c62561-883c-4ff0-9a4a-7334c2a2d2f5"><img src="https://github.com/JhonaCodes/reactive_notify/assets/53523825/0fe206c0-3d63-4fc0-9516-b76c320110a8"></p></a>
+
+
+
+
+
 
 
 This library is not intended to replace any state management solution. Instead, it aims to address certain challenges in managing reactive elements. It provides a simple, clean, lightweight, and quick solution for those situations where you need efficient state management without the need to learn the intricacies of a more robust library.
