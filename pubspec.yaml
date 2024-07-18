@@ -1,11 +1,11 @@
 name: reactive_notify
 description: A Dart library for managing reactive state efficiently, supporting multiple independent instances with unique keys.
 
-version: 1.0.2
+version: 1.0.3
 homepage: https://github.com/JhonaCodes/reactive_notify
 
 environment:
-  sdk: '>=3.3.4 <4.0.0'
+  sdk: '>=3.4.3 <4.0.0'
 
 # Add regular dependencies here.
 dependencies:

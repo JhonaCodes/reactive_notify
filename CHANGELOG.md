@@ -1,4 +1,7 @@
 ## 1.0.2
+- Upgrade SDK.
+
+## 1.0.2
 - Add gif for visual context.
 - Change name from `State` to `Notify`.
 - Update golden test.
