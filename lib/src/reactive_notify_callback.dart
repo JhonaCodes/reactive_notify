@@ -88,7 +88,7 @@ class ReactiveNotifyCallback<T> extends SingletonState<T> {
   void resetState() {
     value = _defaultValue;
     /// Ensure current value was reset.
-    assert(value.hashCode == _defaultValue.hashCode, "Was impossible to reset current state");
+    assert(value == _defaultValue, "Was impossible to reset current state");
     notifyListeners();
   }
 

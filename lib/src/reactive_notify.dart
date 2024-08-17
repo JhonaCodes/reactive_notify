@@ -52,7 +52,7 @@ class ReactiveNotify<T> extends SingletonState<T> {
   @override
   void setState(T newValue) {
     value = newValue;
-    assert(value.hashCode == newValue.hashCode, "Was impossible to change previous state");
+    assert(value == newValue, "Was impossible to change previous state");
     notifyListeners();
   }
 
@@ -68,7 +68,7 @@ class ReactiveNotify<T> extends SingletonState<T> {
     value = _defaultValue;
 
     /// Ensure current value was reset.
-    assert(value.hashCode == _defaultValue.hashCode, "Was impossible to reset current state");
+    assert(value == _defaultValue, "Was impossible to reset current state");
 
     notifyListeners();
   }
