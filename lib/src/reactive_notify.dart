@@ -1,3 +1,6 @@
+import 'dart:nativewrappers/_internal/vm/lib/ffi_allocation_patch.dart';
+
+import 'package:flutter/cupertino.dart';
 import 'package:reactive_notify/src/singleton_states.dart';
 import 'package:reactive_notify/src/u_key.dart';
 
@@ -49,6 +52,8 @@ class ReactiveNotify<T> extends SingletonState<T> {
   @override
   void setState(T newValue) {
     value = newValue;
+    assert(value.hashCode == newValue.hashCode, "Was impossible to change previous state");
+    notifyListeners();
   }
 
   /// Resets the state to its default value.
@@ -61,5 +66,24 @@ class ReactiveNotify<T> extends SingletonState<T> {
   @override
   void resetState() {
     value = _defaultValue;
+
+    /// Ensure current value was reset.
+    assert(value.hashCode == _defaultValue.hashCode, "Was impossible to reset current state");
+
+    notifyListeners();
+  }
+
+
+  @override
+  void when(BuildContext context,T newValue,
+      {required void Function(BuildContext context) onCompleteSetState}) {
+
+    /// Contain validation if value was changed
+    setState(newValue);
+
+    assert(context.mounted, "The context is not mounted, verify any async process\nThe context should be mounted then you can continue");
+    /// Ensure the context is mounted for execute callback [onCompleteSetState]
+    onCompleteSetState.call(context);
+
   }
 }
