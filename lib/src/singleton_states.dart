@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 
 /// [SingletonState] is an abstract class that extends `ValueNotifier` to provide a base for managing global state reactively.
@@ -54,4 +55,19 @@ abstract class SingletonState<T> extends ValueNotifier<T> {
   /// }
   /// ```
   void resetState();
+
+  /// Abstract method where you can execute callback on finish setState.
+  ///
+  /// Subclasses must implement this method to reset the state value.
+  /// Example"
+  /// ```dart
+  /// void when(T newValue, void Function() onCompleteSetState){
+  ///   value = newValue;
+  ///   assert(value == newValue);
+  ///   onCompleteSetState.call();
+  /// }
+  /// ```
+  ///
+  void when(BuildContext context,T newValue,
+      {required void Function(BuildContext context) onCompleteSetState});
 }

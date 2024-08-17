@@ -1,3 +1,4 @@
+import 'package:flutter/src/widgets/framework.dart';
 import 'package:reactive_notify/src/singleton_states.dart';
 import 'package:reactive_notify/src/u_key.dart';
 
@@ -77,6 +78,7 @@ class ReactiveNotifyInitializerCallback<T> extends SingletonState<T?> {
     if (_onStateChange != null) {
       value = _onStateChange.call(newValue as T);
     }
+    notifyListeners();
   }
 
   /// Resets the state to its default value using the initializer function.
@@ -87,7 +89,10 @@ class ReactiveNotifyInitializerCallback<T> extends SingletonState<T?> {
   /// print(connectionState.value); // Output: ConnectionElement.connected
   /// ```
   @override
-  void resetState() => value = _initializer();
+  void resetState() {
+    value = _initializer();
+    notifyListeners();
+  }
 
   /// Manually triggers the callback function with the current state value.
   ///
@@ -102,4 +107,19 @@ class ReactiveNotifyInitializerCallback<T> extends SingletonState<T?> {
       _onStateChange?.call(value as T);
     }
   }
+
+  @override
+  void when(BuildContext context, T? newValue, {required void Function(BuildContext context) onCompleteSetState}) {
+
+    /// Contain validation if value was changed
+    setState(newValue);
+
+    assert(context.mounted, "The context is not mounted, verify any async process\nThe context should be mounted then you can continue");
+    /// Ensure the context is mounted for execute callback [onCompleteSetState]
+    onCompleteSetState.call(context);
+
+  }
+
+
+
 }
