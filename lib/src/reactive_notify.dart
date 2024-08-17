@@ -1,5 +1,3 @@
-import 'dart:nativewrappers/_internal/vm/lib/ffi_allocation_patch.dart';
-
 import 'package:flutter/cupertino.dart';
 import 'package:reactive_notify/src/singleton_states.dart';
 import 'package:reactive_notify/src/u_key.dart';
