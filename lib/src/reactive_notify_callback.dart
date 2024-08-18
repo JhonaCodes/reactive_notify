@@ -1,4 +1,3 @@
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:reactive_notify/src/singleton_states.dart';
 import 'package:reactive_notify/src/u_key.dart';
 
@@ -87,8 +86,6 @@ class ReactiveNotifyCallback<T> extends SingletonState<T> {
   @override
   void resetState() {
     value = _defaultValue;
-    /// Ensure current value was reset.
-    assert(value == _defaultValue, "Was impossible to reset current state");
     notifyListeners();
   }
 
@@ -108,14 +105,19 @@ class ReactiveNotifyCallback<T> extends SingletonState<T> {
   }
 
   @override
-  void when(BuildContext context, T newValue, {required void Function(BuildContext context) onCompleteSetState}) {
-
+  void when(
+      {required T Function() newState,
+      required void Function() onCompleteState,
+      void Function(Object error, StackTrace stackTrace)? onError}) {
     /// Contain validation if value was changed
-    setState(newValue);
+    setState(newState());
 
-    assert(context.mounted, "The context is not mounted, verify any async process\nThe context should be mounted then you can continue");
-    /// Ensure the context is mounted for execute callback [onCompleteSetState]
-    onCompleteSetState.call(context);
-
+    try {
+      onCompleteState.call();
+    } catch (error, stackTrace) {
+      if (onError != null) {
+        onError(error, stackTrace);
+      }
+    }
   }
 }

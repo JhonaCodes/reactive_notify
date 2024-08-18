@@ -1,4 +1,3 @@
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:reactive_notify/src/singleton_states.dart';
 import 'package:reactive_notify/src/u_key.dart';
 
@@ -20,7 +19,7 @@ import 'package:reactive_notify/src/u_key.dart';
 /// connectionState.setState(ConnectionElement.error);
 /// print(connectionState.value); // Output: ConnectionElement.error
 /// ```
-class ReactiveNotifyInitializerCallback<T> extends SingletonState<T?> {
+class ReactiveNotifyInitializerCallback<T> extends SingletonState<T> {
   static final Map<UKey, ReactiveNotifyInitializerCallback> _instances = {};
 
   /// A function that initializes the state when it is first created.
@@ -30,8 +29,9 @@ class ReactiveNotifyInitializerCallback<T> extends SingletonState<T?> {
   final T Function(T newState)? _onStateChange;
 
   /// Private constructor to initialize the state with an initializer function and a callback function.
-  ReactiveNotifyInitializerCallback._(this._initializer, this._onStateChange)
-      : super(null) {
+  ReactiveNotifyInitializerCallback.state(
+      this._initializer, this._onStateChange)
+      : super(_initializer()) {
     _initialize();
   }
 
@@ -56,8 +56,8 @@ class ReactiveNotifyInitializerCallback<T> extends SingletonState<T?> {
       required T Function(T newState) onStateChange}) {
     UKey key = UKey();
     if (_instances[key] == null) {
-      _instances[key] =
-          ReactiveNotifyInitializerCallback<T>._(initializer, onStateChange);
+      _instances[key] = ReactiveNotifyInitializerCallback<T>.state(
+          initializer, onStateChange);
     }
     return _instances[key] as ReactiveNotifyInitializerCallback<T>;
   }
@@ -73,10 +73,10 @@ class ReactiveNotifyInitializerCallback<T> extends SingletonState<T?> {
   /// print(connectionState.value); // Output: ConnectionElement.error
   /// ```
   @override
-  void setState(T? newValue) {
+  void setState(T newValue) {
     value = newValue;
     if (_onStateChange != null) {
-      value = _onStateChange.call(newValue as T);
+      value = _onStateChange.call(newValue);
     }
     notifyListeners();
   }
@@ -104,22 +104,24 @@ class ReactiveNotifyInitializerCallback<T> extends SingletonState<T?> {
   /// ```
   void update() {
     if (value != null) {
-      _onStateChange?.call(value as T);
+      _onStateChange?.call(value);
     }
   }
 
   @override
-  void when(BuildContext context, T? newValue, {required void Function(BuildContext context) onCompleteSetState}) {
-
+  void when(
+      {required T Function() newState,
+      required void Function() onCompleteState,
+      void Function(Object error, StackTrace stackTrace)? onError}) {
     /// Contain validation if value was changed
-    setState(newValue);
+    setState(newState());
 
-    assert(context.mounted, "The context is not mounted, verify any async process\nThe context should be mounted then you can continue");
-    /// Ensure the context is mounted for execute callback [onCompleteSetState]
-    onCompleteSetState.call(context);
-
+    try {
+      onCompleteState.call();
+    } catch (error, stackTrace) {
+      if (onError != null) {
+        onError(error, stackTrace);
+      }
+    }
   }
-
-
-
 }
