@@ -126,7 +126,7 @@ class MyApp extends StatelessWidget {
                 bool isConnected = state != ConnectionState.errorOnSynchronized;
                 return Chip(
                   label: Text(
-                    "${state?.name}",
+                    state.name,
                   ),
                   avatar: Icon(
                     Icons.sync,
