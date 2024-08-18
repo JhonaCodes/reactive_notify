@@ -113,7 +113,7 @@ class ReactiveNotifyInitializerCallback<T> extends SingletonState<T> {
       {required T Function() newState,
       required void Function() onCompleteState,
       void Function(Object error, StackTrace stackTrace)? onError}) {
-    /// Contain validation if value was changed
+
     setState(newState());
 
     try {

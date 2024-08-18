@@ -27,7 +27,7 @@ Add the following dependency to your `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  reactive_notify: ^1.0.4
+  reactive_notify: ^1.0.5
 ```
 
 ## Usage
@@ -109,9 +109,8 @@ print(state.value); // Output: initial value
 ### Execute Function when complete setState using `when`
 ```dart
 when(
-    context,
-    newValue,
-    onCompleteSetState(context){
+    ()=> newValue,
+    onCompleteSetState(){
     // Execute your function.
     }
 );
@@ -133,7 +132,10 @@ Creates a new instance of `ReactiveNotify` with a unique key and an initial valu
 
 - `setState(T newValue)`: Sets a new value to the state and notifies listeners.
 - `resetState()`: Resets the state to its default value.
-- `when`(context, T newValue, {required void Function(BuildContext context) onCompleteSetState}): We can execute function when complete `setState`, on same context.
+- `when`(
+  {required T Function() newState,
+  required void Function() onCompleteState,
+  void Function(Object error, StackTrace stackTrace)? onError}): We can execute function when complete `setState`, on same context.
 
 ### `ReactiveBuilder`
 

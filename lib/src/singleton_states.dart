@@ -62,12 +62,14 @@ abstract class SingletonState<T> extends ValueNotifier<T> {
   /// Example"
   /// ```dart
   /// void when(T newValue, void Function() onCompleteSetState){
-  ///   value = newValue;
-  ///   assert(value == newValue);
-  ///   onCompleteSetState.call();
+  ///   newState()=> newValue;
+  ///   try{
+  ///    onCompleteState.call();
+  ///   }catch(error, stackTrace){
+  ///    onError(error, stackTrace);
+  ///   }
   /// }
   /// ```
-  ///
   void when(
       {required T Function() newState,
       required void Function() onCompleteState,
