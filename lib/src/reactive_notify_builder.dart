@@ -37,8 +37,70 @@ class ReactiveBuilder<T> extends StatefulWidget {
   /// A flag to determine if the state should be reset to its default value when the widget is disposed.
   final bool cleanStateOnDispose;
 
+
+  /// The function to be executed during the [initState] lifecycle method of the widget.
+  /// This allows for additional initialization logic or setup before the widget builds its UI.
+  ///
+  /// Example:
+  /// ```dart
+  /// ReactiveBuilder(
+  ///   initState: () {
+  ///     print('Widget has been initialized');
+  ///   },
+  ///   // Other parameters
+  /// );
+  /// ```
+  final void Function()? initState;
+
+  /// The function to be executed during the [didUpdateWidget] lifecycle method of the widget.
+  /// This function receives the old widget as an argument, allowing for comparison and custom logic
+  /// when the widget updates in response to changes.
+  ///
+  /// Example:
+  /// ```dart
+  /// ReactiveBuilder(
+  ///   didUpdateWidget: (oldWidget) {
+  ///     print('Widget updated. Old value: ${oldWidget.initialValue}');
+  ///   },
+  ///   // Other parameters
+  /// );
+  /// ```
+  final void Function(ReactiveBuilder<T> oldWidget)? didUpdateWidget;
+
+  /// The function to be executed during the [didChangeDependencies] lifecycle method of the widget.
+  /// This allows for custom actions when the dependencies of the widget change, such as updates
+  /// based on changes in `InheritedWidgets` or the `BuildContext`.
+  ///
+  /// Example:
+  /// ```dart
+  /// ReactiveBuilder(
+  ///   didChangeDependencies: () {
+  ///     print('Widget dependencies have changed');
+  ///   },
+  ///   // Other parameters
+  /// );
+  /// ```
+  final void Function()? didChangeDependencies;
+
+  /// The function that takes another function as an argument to update the widget's state.
+  /// This allows for abstraction and customization of how the state is updated from outside the widget.
+  /// The provided function should use the `setState` function to update the state.
+  ///
+  /// Example:
+  /// ```dart
+  /// ReactiveBuilder(
+  ///   setState: (updateFunction) {
+  ///     updateFunction(() {
+  ///       print('State updated externally');
+  ///     });
+  ///   },
+  ///   // Other parameters
+  /// );
+  /// ```
+  final void Function(void Function(VoidCallback fn))? setState;
+
   /// The builder function which builds a widget depending on the [valueListenable]'s value.
-  final Widget Function(BuildContext context, T value) builder;
+  final Widget Function(T value) builder;
 
   /// Creates a [ReactiveBuilder].
   ///
@@ -48,6 +110,10 @@ class ReactiveBuilder<T> extends StatefulWidget {
   const ReactiveBuilder({
     super.key,
     required this.valueListenable,
+    this.initState,
+    this.didChangeDependencies,
+    this.didUpdateWidget,
+    this.setState,
     required this.builder,
     this.cleanStateOnDispose = false,
   });
@@ -62,6 +128,8 @@ class _ReactiveBuilderState<T> extends State<ReactiveBuilder<T>> {
   @override
   void initState() {
     super.initState();
+    widget.initState?.call();
+
     // Initialize the value from the valueListenable and start listening for changes.
     value = widget.valueListenable.value;
     widget.valueListenable.addListener(_valueChanged);
@@ -70,6 +138,8 @@ class _ReactiveBuilderState<T> extends State<ReactiveBuilder<T>> {
   @override
   void didUpdateWidget(ReactiveBuilder<T> oldWidget) {
     super.didUpdateWidget(oldWidget);
+    widget.didUpdateWidget?.call(oldWidget);
+    widget.setState?.call(setState);
     // When the widget is updated, check if the valueListenable has changed.
     // If it has, remove the listener from the old valueListenable and add it to the new one.
     if (oldWidget.valueListenable != widget.valueListenable) {
@@ -126,6 +196,13 @@ class _ReactiveBuilderState<T> extends State<ReactiveBuilder<T>> {
     });
   }
 
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    widget.didChangeDependencies?.call();
+  }
+
   /// Builds the widget tree using the builder function provided.
   ///
   /// This method wraps the returned widget in a [RepaintBoundary] to isolate
@@ -154,7 +231,7 @@ class _ReactiveBuilderState<T> extends State<ReactiveBuilder<T>> {
   Widget build(BuildContext context) {
     // Wrap the built widget in a RepaintBoundary to optimize performance.
     return RepaintBoundary(
-      child: widget.builder(context, value),
+      child: widget.builder(value),
     );
   }
 }

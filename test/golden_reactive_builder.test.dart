@@ -17,7 +17,7 @@ void main() {
             name: 'Change value 0',
             child: ReactiveBuilder<int>(
                 valueListenable: state,
-                builder: (context, value) {
+                builder: (value) {
                   if (value == 200) {
                     state.setState(0);
                   }
@@ -41,7 +41,7 @@ void main() {
             name: 'Change value 200',
             child: ReactiveBuilder<int>(
                 valueListenable: state,
-                builder: (context, value) {
+                builder: (value) {
                   if (value == 0) {
                     state.setState(200);
                   }
