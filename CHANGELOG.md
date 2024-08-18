@@ -1,3 +1,6 @@
+## 1.0.5
+- Update documentation.
+
 ## 1.0.4
 - Implement when and callback when finish setState.
 - Help to execute any other params when change state
