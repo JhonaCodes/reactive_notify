@@ -37,7 +37,6 @@ class ReactiveBuilder<T> extends StatefulWidget {
   /// A flag to determine if the state should be reset to its default value when the widget is disposed.
   final bool cleanStateOnDispose;
 
-
   /// The function to be executed during the [initState] lifecycle method of the widget.
   /// This allows for additional initialization logic or setup before the widget builds its UI.
   ///
@@ -195,7 +194,6 @@ class _ReactiveBuilderState<T> extends State<ReactiveBuilder<T>> {
       });
     });
   }
-
 
   @override
   void didChangeDependencies() {

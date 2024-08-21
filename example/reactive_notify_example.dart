@@ -122,11 +122,9 @@ class MyApp extends StatelessWidget {
             /// 3. Depend of connection for upload any file.
             ReactiveBuilder(
               valueListenable: reactiveStateInitializerCallback,
-              setState: (set){
+              setState: (set) {
                 /// Update state using setState from Stateful widget.
-                set((){
-
-                });
+                set(() {});
               },
               builder: (state) {
                 bool isConnected = state != ConnectionState.errorOnSynchronized;
