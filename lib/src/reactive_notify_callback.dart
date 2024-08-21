@@ -107,13 +107,14 @@ class ReactiveNotifyCallback<T> extends SingletonState<T> {
   @override
   void when(
       {required T Function() newState,
-      required void Function() onCompleteState,
+      required void Function(T data) onCompleteState,
       void Function(Object error, StackTrace stackTrace)? onError}) {
 
     setState(newState());
 
     try {
-      onCompleteState.call();
+      onCompleteState.call(value);
+      notifyListeners();
     } catch (error, stackTrace) {
       if (onError != null) {
         onError(error, stackTrace);

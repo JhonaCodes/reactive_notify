@@ -72,6 +72,6 @@ abstract class SingletonState<T> extends ValueNotifier<T> {
   /// ```
   void when(
       {required T Function() newState,
-      required void Function() onCompleteState,
+      required void Function(T data) onCompleteState,
       void Function(Object error, StackTrace stackTrace)? onError});
 }

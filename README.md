@@ -75,7 +75,7 @@ class MyApp extends StatelessWidget {
           children: [
             ReactiveBuilder<int>(
               valueListenable: state,
-              builder: (context, value) {
+              builder: (value) {
                 return Text('Value: $value');
               },
             ),
@@ -146,7 +146,7 @@ A widget that listens to a `ValueListenable` and rebuilds itself when the value 
 ```dart
 ReactiveBuilder({
   required ValueListenable<T> valueListenable,
-  required Widget Function(BuildContext context, T value) builder,
+  required Widget Function(T value) builder,
   bool cleanStateOnDispose = false,
 })
 ```
@@ -254,7 +254,7 @@ class MyApp extends StatelessWidget {
             /// 1. [ReactiveNotify] Current connection state
             ReactiveBuilder(
               valueListenable: reactiveConnectionState,
-              builder: (context, state) {
+              builder: (state) {
                 bool isConnected = state == ConnectionState.connected;
                 return Chip(
                   label: Text(
@@ -271,7 +271,7 @@ class MyApp extends StatelessWidget {
             /// 2. Depend of connection for upload any file.
             ReactiveBuilder(
               valueListenable: reactiveCallbackConnectionState,
-              builder: (context, state) {
+              builder: (state) {
                 bool isConnected = state == ConnectionState.uploading;
 
                 return Chip(
@@ -289,7 +289,7 @@ class MyApp extends StatelessWidget {
             /// 3. Depend of connection for upload any file.
             ReactiveBuilder(
               valueListenable: reactiveStateInitializerCallback,
-              builder: (context, state) {
+              builder: (state) {
                 bool isConnected = state != ConnectionState.errorOnSynchronized;
                 return Chip(
                   label: Text(
