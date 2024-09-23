@@ -3,6 +3,8 @@ import 'package:test/test.dart';
 
 void main() {
   group('ReactiveNotify', () {
+    final instance1 = ReactiveNotify<int>(() => 0);
+    final instance2 = ReactiveNotify<int>(() => 0);
     test('should initialize with default value', () {
       final state = ReactiveNotify<int>(() => 0);
       expect(state.value, 0);
@@ -27,5 +29,46 @@ void main() {
       state.resetState();
       expect(state.value, 0);
     });
+
+    test('should reset state to default value', () {
+      final notify = ReactiveNotify<int>(() => 0);
+      notify.setState(5);
+      notify.resetState();
+
+      expect(notify.value, equals(0));
+    });
+
+    test('should update state and notify listeners', () {
+      final notify = ReactiveNotify<int>(() => 0);
+      int? notifiedValue;
+
+      notify.addListener(() {
+        notifiedValue = notify.value;
+      });
+
+      notify.setState(5);
+
+      expect(notifiedValue, equals(5));
+    });
+
+    test('should notify multiple listeners', () {
+      final notify = ReactiveNotify<int>(() => 0);
+      int? listener1Value;
+      int? listener2Value;
+
+      notify.addListener(() {
+        listener1Value = notify.value;
+      });
+      notify.addListener(() {
+        listener2Value = notify.value;
+      });
+
+      notify.setState(10);
+
+      expect(listener1Value, equals(10));
+      expect(listener2Value, equals(10));
+    });
+
+
   });
 }
