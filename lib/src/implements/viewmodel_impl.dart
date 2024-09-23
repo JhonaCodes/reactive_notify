@@ -21,19 +21,19 @@ abstract class ViewModelImpl<T> extends NotifierImpl<T> {
 
   }
 
-  // Método que cada subclase deberá implementar
+
   void init();
 
   bool _initialized = false;
 
-  // Inicializa solo si no ha sido inicializado antes
+
   void _initialization() {
     if (!_initialized) {
 
       log('ViewModelI.init');
 
       init();
-      _initialized = true; // Marca como inicializado
+      _initialized = true;
     }
   }
 
