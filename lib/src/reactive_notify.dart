@@ -1,19 +1,12 @@
-import 'package:reactive_notify/src/singleton_states.dart';
-import 'package:reactive_notify/src/u_key.dart';
+import 'dart:developer';
 
-/// [ReactiveNotify] is a class that extends `SingletonState` to manage global state reactively.
-/// It ensures that only a single instance of state per key exists, providing methods to set and reset the state.
-///
-/// Example usage:
-/// ```dart
-/// final connectionState = ReactiveNotify<ConnectionElement>(() => ConnectionElement.connected);
-///
-/// // Access and modify the state
-/// connectionState.setState(ConnectionElement.error);
-/// print(connectionState.value); // Output: ConnectionElement.error
-/// ```
-class ReactiveNotify<T> extends SingletonState<T> {
-  static final Map<UKey, dynamic> _instances = {};
+import 'package:flutter/material.dart';
+
+import 'implements/notifier_impl.dart';
+
+class ReactiveNotify<T> extends NotifierImpl<T> {
+
+  static final Map<UniqueKey, dynamic> _instances = {};
 
   /// The default value of the state, initialized at the time of instance creation.
   final T _defaultValue;
@@ -32,10 +25,15 @@ class ReactiveNotify<T> extends SingletonState<T> {
   /// final connectionState = ReactiveNotify<ConnectionElement>(() => ConnectionElement.connected);
   /// ```
   factory ReactiveNotify(T Function() initialValue) {
-    UKey key = UKey();
+
+    UniqueKey key = UniqueKey();
+
     if (_instances[key] == null) {
       _instances[key] = ReactiveNotify<T>.state(initialValue());
     }
+
+    log('ReactiveNotifier.factory instances = $_instances');
+
     return _instances[key] as ReactiveNotify<T>;
   }
 
@@ -46,7 +44,7 @@ class ReactiveNotify<T> extends SingletonState<T> {
   /// connectionState.setState(ConnectionElement.error);
   /// print(connectionState.value); // Output: ConnectionElement.error
   /// ```
-  @override
+
   void setState(T newValue) {
     value = newValue;
     notifyListeners();
@@ -59,27 +57,27 @@ class ReactiveNotify<T> extends SingletonState<T> {
   /// connectionState.resetState();
   /// print(connectionState.value); // Output: ConnectionElement.connected
   /// ```
-  @override
+
   void resetState() {
     value = _defaultValue;
-
     notifyListeners();
   }
 
-  @override
-  void when(
-      {required T Function() newState,
-      required void Function(T data) onCompleteState,
-      void Function(Object error, StackTrace stackTrace)? onError}) {
-    setState(newState());
 
-    try {
-      onCompleteState.call(value);
-      notifyListeners();
-    } catch (error, stackTrace) {
-      if (onError != null) {
-        onError(error, stackTrace);
-      }
-    }
+
+  @override
+  void dispose() {
+    super.dispose();
+    log('Instance ${value.runtimeType} disposed');
   }
+
+
+  void cleanup(){
+
+    _instances.clear();
+
+    log('_instances = $_instances');
+  }
+
+
 }

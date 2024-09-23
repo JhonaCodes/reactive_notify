@@ -16,44 +16,13 @@ enum ConnectionState {
 }
 
 /// Test for current state [ReactiveNotify].
-final reactiveConnectionState = ReactiveNotify<ConnectionState>(() {
+final ReactiveNotify<ConnectionState> reactiveConnectionState = ReactiveNotify<ConnectionState>(() {
   /// You can put any code for initial value.
   return ConnectionState.signalOff;
 });
 
-/// Test for current state [ReactiveNotifyCallback].
-final reactiveCallbackConnectionState = ReactiveNotifyCallback<ConnectionState>(
-  ConnectionState.waiting,
-  onStateChange: (value) {
-    /// You can put any validation or use another Reactive functions.
-    if (reactiveConnectionState.value == ConnectionState.unconnected) {
-      value = ConnectionState.error;
-    }
 
-    return value;
-  },
-);
 
-/// Test for current state [ReactiveNotifyInitializerCallback].
-final reactiveStateInitializerCallback =
-    ReactiveNotifyInitializerCallback<ConnectionState>(initializer: () {
-  if (reactiveConnectionState.value == ConnectionState.signalOff ||
-      reactiveCallbackConnectionState.value == ConnectionState.error) {
-    return ConnectionState.errorOnSynchronized;
-  }
-
-  return ConnectionState.waitingForSynchronization;
-}, onStateChange: (state) {
-  if (reactiveConnectionState.value == ConnectionState.connected) {
-    state = ConnectionState.synchronizing;
-  }
-
-  if (reactiveCallbackConnectionState.value == ConnectionState.error) {
-    state = ConnectionState.errorOnSynchronized;
-  }
-
-  return state;
-});
 
 void main() {
   /// Ensure flutter initialized.
@@ -87,7 +56,7 @@ class MyApp extends StatelessWidget {
             /// 1. [ReactiveNotify] Current connection state
             ReactiveBuilder(
               valueListenable: reactiveConnectionState,
-              builder: (state) {
+              builder: (context,state, keep) {
                 bool isConnected = state == ConnectionState.connected;
                 return Chip(
                   label: Text(
@@ -101,44 +70,7 @@ class MyApp extends StatelessWidget {
               },
             ),
 
-            /// 2. Depend of connection for upload any file.
-            ReactiveBuilder(
-              valueListenable: reactiveCallbackConnectionState,
-              builder: (state) {
-                bool isConnected = state == ConnectionState.uploading;
 
-                return Chip(
-                  label: Text(
-                    state.name,
-                  ),
-                  avatar: Icon(
-                    Icons.cloud_download,
-                    color: isConnected ? Colors.green : Colors.red,
-                  ),
-                );
-              },
-            ),
-
-            /// 3. Depend of connection for upload any file.
-            ReactiveBuilder(
-              valueListenable: reactiveStateInitializerCallback,
-              setState: (set) {
-                /// Update state using setState from Stateful widget.
-                set(() {});
-              },
-              builder: (state) {
-                bool isConnected = state != ConnectionState.errorOnSynchronized;
-                return Chip(
-                  label: Text(
-                    state.name,
-                  ),
-                  avatar: Icon(
-                    Icons.sync,
-                    color: isConnected ? Colors.green : Colors.red,
-                  ),
-                );
-              },
-            ),
           ],
         ),
       ),
@@ -150,12 +82,6 @@ class MyApp extends StatelessWidget {
                   ? ConnectionState.unconnected
                   : ConnectionState.connected);
 
-          /// Try to connecting but the internal validation make error if reactiveConnectionState is unconnected.
-          reactiveCallbackConnectionState.setState(ConnectionState.uploading);
-
-          /// Try to synchronizing butt first make a internal validation
-          reactiveStateInitializerCallback
-              .setState(ConnectionState.synchronizing);
         },
         child: const Text('ReactiveNotify'),
       ),
