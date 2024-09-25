@@ -16,13 +16,11 @@ enum ConnectionState {
 }
 
 /// Test for current state [ReactiveNotify].
-final ReactiveNotify<ConnectionState> reactiveConnectionState = ReactiveNotify<ConnectionState>(() {
+final ReactiveNotify<ConnectionState> reactiveConnectionState =
+    ReactiveNotify<ConnectionState>(() {
   /// You can put any code for initial value.
   return ConnectionState.signalOff;
 });
-
-
-
 
 void main() {
   /// Ensure flutter initialized.
@@ -56,7 +54,7 @@ class MyApp extends StatelessWidget {
             /// 1. [ReactiveNotify] Current connection state
             ReactiveBuilder(
               valueListenable: reactiveConnectionState,
-              builder: (context,state, keep) {
+              builder: (context, state, keep) {
                 bool isConnected = state == ConnectionState.connected;
                 return Chip(
                   label: Text(
@@ -69,8 +67,6 @@ class MyApp extends StatelessWidget {
                 );
               },
             ),
-
-
           ],
         ),
       ),
@@ -81,7 +77,6 @@ class MyApp extends StatelessWidget {
               reactiveConnectionState.value == ConnectionState.connected
                   ? ConnectionState.unconnected
                   : ConnectionState.connected);
-
         },
         child: const Text('ReactiveNotify'),
       ),

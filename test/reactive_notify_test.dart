@@ -68,7 +68,5 @@ void main() {
       expect(listener1Value, equals(10));
       expect(listener2Value, equals(10));
     });
-
-
   });
 }

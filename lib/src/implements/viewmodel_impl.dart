@@ -12,31 +12,26 @@ abstract class ViewModelImpl<T> extends NotifierImpl<T> {
 
   final RepositoryImpl _repository;
 
-  ViewModelImpl( this._repository, super._data, this._id, this._location ){
+  ViewModelImpl(this._repository, super._data, this._id, this._location) {
     _initialization();
 
     if (!kReleaseMode && (_id != null && _location != null)) {
       StateTracker.setLocation(_id, _location);
     }
-
   }
-
 
   void init();
 
   bool _initialized = false;
 
-
   void _initialization() {
     if (!_initialized) {
-
       log('ViewModelI.init');
 
       init();
       _initialized = true;
     }
   }
-
 
   @override
   set value(T newValue) {
@@ -46,23 +41,15 @@ abstract class ViewModelImpl<T> extends NotifierImpl<T> {
     }
   }
 
-
   void addDependencyTracker(String notifyId, String dependentId) {
     if (!kReleaseMode) {
       StateTracker.addDependency(notifyId, dependentId);
     }
   }
 
-  void currentTracker(){
+  void currentTracker() {
     if (!kReleaseMode && _id != null) {
       StateTracker.trackStateChange(_id);
     }
   }
-
 }
-
-
-
-
-
-

@@ -6,29 +6,23 @@ import 'notifier_impl.dart';
 import 'repository_impl.dart';
 
 /// Viewmodel async initialization  wit AsyncState Config.
-abstract class ViewmodelAsyncImpl<T> extends NotifierImpl<AsyncState<T>>{
-
+abstract class ViewmodelAsyncImpl<T> extends NotifierImpl<AsyncState<T>> {
   final RepositoryImpl _repository;
 
-  ViewmodelAsyncImpl(this._repository,super.value){
+  ViewmodelAsyncImpl(this._repository, super.value) {
     _initialization();
   }
 
   Future<T> init();
 
-
   bool _initialized = false;
   Future<void> _initialization() async {
-
-    if(!_initialized){
-
+    if (!_initialized) {
       log('ViewmodelAsyncI.asyncInit');
 
       await init();
 
       _initialized = true;
     }
-
   }
-
 }

@@ -1,2 +1,2 @@
 /// Use for Repository
-interface class RepositoryImpl<T>{}
+interface class RepositoryImpl<T> {}
