@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 
-abstract class NotifierImpl<T> extends ChangeNotifier implements ValueListenable<T> {
+abstract class NotifierImpl<T> extends ChangeNotifier
+    implements ValueListenable<T> {
   /// Creates a [ChangeNotifier] that wraps this value.
   NotifierImpl(this._value) {
     if (kFlutterMemoryAllocationsEnabled) {
@@ -26,5 +27,4 @@ abstract class NotifierImpl<T> extends ChangeNotifier implements ValueListenable
 
   @override
   String toString() => '${describeIdentity(this)}($value)';
-
 }

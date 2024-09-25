@@ -19,16 +19,11 @@ void main() {
             name: 'Change value 0',
             child: ReactiveBuilder(
                 valueListenable: state,
-                builder: (context, value, child ) {
+                builder: (context, value, child) {
                   return Column(
                     children: [
-
                       Text("Widget que se recontruye $value"),
-
-                      child(
-                        Text("Mi widget que no se recontruye")
-                      ),
-
+                      child(Text("Mi widget que no se recontruye")),
                       Text("Widget que se recontruye $value"),
                     ],
                   );
@@ -51,7 +46,7 @@ void main() {
             name: 'Change value 200',
             child: ReactiveBuilder<int>(
                 valueListenable: state,
-                builder: (context,value, child ) {
+                builder: (context, value, child) {
                   if (value == 0) {
                     state.setState(200);
                   }
@@ -65,10 +60,8 @@ void main() {
     );
   });
 
-
-
-  testWidgets('ReactiveBuilder does not rebuild non-rebuildable widgets', (WidgetTester tester) async {
-
+  testWidgets('ReactiveBuilder does not rebuild non-rebuildable widgets',
+      (WidgetTester tester) async {
     int rebuildCount = 0;
 
     await tester.pumpWidget(
@@ -77,7 +70,6 @@ void main() {
           body: ReactiveBuilder<int>(
             valueListenable: valueNotifier,
             builder: (context, value, noRebuildable) {
-
               rebuildCount++; // Contador para verificar reconstrucciones
               log("Widget que se reconstruye: $value");
               print("Widget que se reconstruye: $value");
@@ -111,17 +103,13 @@ void main() {
     expect(rebuildCount, 2); // Se debería haber incrementado solo una vez
   });
 }
-final ReactiveNotify<int> valueNotifier = ReactiveNotify(()=>0);
 
-
+final ReactiveNotify<int> valueNotifier = ReactiveNotify(() => 0);
 
 class NonRebuildableWidget extends StatelessWidget {
-
-
   NonRebuildableWidget({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-
     return Text("Widget que no se reconstruye");
   }
 }

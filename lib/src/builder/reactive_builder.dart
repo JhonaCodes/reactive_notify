@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 
 class ReactiveBuilder<T> extends StatefulWidget {
   final ValueListenable<T> valueListenable;
-  final Widget Function(BuildContext context, T value, Widget Function(Widget  child) keep) builder;
+  final Widget Function(
+          BuildContext context, T value, Widget Function(Widget child) keep)
+      builder;
 
   const ReactiveBuilder({
     super.key,
@@ -51,7 +53,7 @@ class _ReactiveBuilderState<T> extends State<ReactiveBuilder<T>> {
     debounceTimer?.cancel();
 
     // Start a new timer. After 100 milliseconds, update the state and rebuild the widget.
-    if(isTesting) {
+    if (isTesting) {
       debounceTimer = Timer(Duration(milliseconds: 100), () {
         setState(() {
           value = widget.valueListenable.value;
@@ -74,9 +76,8 @@ class _ReactiveBuilderState<T> extends State<ReactiveBuilder<T>> {
   }
 }
 
-
 class _NoRebuildWrapper extends StatefulWidget {
-  final Widget  builder;
+  final Widget builder;
 
   const _NoRebuildWrapper({required this.builder});
 
@@ -96,7 +97,6 @@ class _NoRebuildWrapperState extends State<_NoRebuildWrapper> {
   @override
   Widget build(BuildContext context) => child;
 }
-
 
 bool get isTesting {
   return const bool.fromEnvironment('dart.vm.product') == false;

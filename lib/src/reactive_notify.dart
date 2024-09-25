@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'implements/notifier_impl.dart';
 
 class ReactiveNotify<T> extends NotifierImpl<T> {
-
   static final Map<UniqueKey, dynamic> _instances = {};
 
   /// The default value of the state, initialized at the time of instance creation.
@@ -25,7 +24,6 @@ class ReactiveNotify<T> extends NotifierImpl<T> {
   /// final connectionState = ReactiveNotify<ConnectionElement>(() => ConnectionElement.connected);
   /// ```
   factory ReactiveNotify(T Function() initialValue) {
-
     UniqueKey key = UniqueKey();
 
     if (_instances[key] == null) {
@@ -47,7 +45,6 @@ class ReactiveNotify<T> extends NotifierImpl<T> {
 
   void setState(T newValue) {
     value = newValue;
-    notifyListeners();
   }
 
   /// Resets the state to its default value.
@@ -60,10 +57,7 @@ class ReactiveNotify<T> extends NotifierImpl<T> {
 
   void resetState() {
     value = _defaultValue;
-    notifyListeners();
   }
-
-
 
   @override
   void dispose() {
@@ -71,13 +65,9 @@ class ReactiveNotify<T> extends NotifierImpl<T> {
     log('Instance ${value.runtimeType} disposed');
   }
 
-
-  void cleanup(){
-
+  void cleanup() {
     _instances.clear();
 
     log('_instances = $_instances');
   }
-
-
 }

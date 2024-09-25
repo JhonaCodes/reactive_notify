@@ -5,10 +5,9 @@ import 'package:flutter/foundation.dart';
 enum LogLevel { debug, info, warning, error }
 
 class StateTracker {
-
   static final Map<String, Set<String>> _dependencyGraph = {};
   static final Map<String, String> _locationMap = {};
-  static  LogLevel _logLevel = LogLevel.info;
+  static LogLevel _logLevel = LogLevel.info;
 
   static void setLogLevel(LogLevel level) {
     _logLevel = level;
@@ -23,8 +22,7 @@ class StateTracker {
   }
 
   static void trackStateChange(String notifyId) {
-    if(_locationMap.isNotEmpty) {
-
+    if (_locationMap.isNotEmpty) {
       if (kReleaseMode) return;
       _log(LogLevel.info,
           'Status changed: $notifyId en ${_locationMap[notifyId]}');
@@ -33,7 +31,6 @@ class StateTracker {
         _log(LogLevel.debug,
             '  Subject to: $dependentId on ${_locationMap[dependentId]}');
       }
-
     }
   }
 
