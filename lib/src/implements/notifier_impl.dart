@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 
-class NotifierImpl<T> extends ChangeNotifier {
+@protected
+abstract class NotifierImpl<T> extends ChangeNotifier {
   T _state;
-
   NotifierImpl(this._state);
 
   T get state => _state;

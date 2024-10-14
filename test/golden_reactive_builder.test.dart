@@ -77,7 +77,7 @@ void main() {
                 children: [
                   Text("Widget que se reconstruye: $value"),
                   noRebuildable(
-                    NonRebuildableWidget(),
+                    NonRebuildWidget(),
                   ),
                 ],
               );
@@ -106,8 +106,9 @@ void main() {
 
 final ReactiveNotify<int> valueNotifier = ReactiveNotify(() => 0);
 
-class NonRebuildableWidget extends StatelessWidget {
-  NonRebuildableWidget({Key? key}) : super(key: key);
+
+class NonRebuildWidget extends StatelessWidget {
+  NonRebuildWidget({super.key});
   @override
   Widget build(BuildContext context) {
     return Text("Widget que no se reconstruye");

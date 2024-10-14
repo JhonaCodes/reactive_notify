@@ -10,6 +10,7 @@ abstract class ViewModelImpl<T> extends NotifierImpl<T> {
   final String? _id;
   final String? _location;
 
+  // ignore_for_file: unused_field
   final RepositoryImpl _repository;
 
   ViewModelImpl(this._repository, super._data, this._id, this._location) {

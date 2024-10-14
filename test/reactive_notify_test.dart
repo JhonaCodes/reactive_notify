@@ -84,6 +84,8 @@ void main() {
 
     group('Instance Management', () {
       test('should create multiple instances of the same type', () {
+
+        // ignore_for_file: unused_local_variable
         final state1 = ReactiveNotify<int>(() => 0);
         final state2 = ReactiveNotify<int>(() => 1);
         final state3 = ReactiveNotify<int>(() => 2);

@@ -19,8 +19,6 @@ export 'src/handler/async_state.dart';
 /// Export ViewModelImpl
 export 'src/implements/viewmodel_impl.dart';
 
-/// Export ViewmodelAsyncImpl
-export 'src/implements/viewmodel_async_impl.dart';
 
 /// Export RepositoryImpl
 export 'src/implements/repository_impl.dart';
