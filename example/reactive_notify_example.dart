@@ -52,7 +52,7 @@ class MyApp extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             /// 1. [ReactiveNotify] Current connection state
-            ReactiveBuilder(
+            ReactiveBuilder<ConnectionState>(
               valueListenable: reactiveConnectionState,
               builder: (context, state, keep) {
                 bool isConnected = state == ConnectionState.connected;
@@ -74,7 +74,7 @@ class MyApp extends StatelessWidget {
         onPressed: () {
           /// Variation unconnected and connected.
           reactiveConnectionState.setState(
-              reactiveConnectionState.value == ConnectionState.connected
+              reactiveConnectionState.state == ConnectionState.connected
                   ? ConnectionState.unconnected
                   : ConnectionState.connected);
         },

@@ -33,13 +33,6 @@ abstract class ViewModelImpl<T> extends NotifierImpl<T> {
     }
   }
 
-  @override
-  set value(T newValue) {
-    super.value = newValue;
-    if (!kReleaseMode && _id != null) {
-      StateTracker.trackStateChange(_id);
-    }
-  }
 
   void addDependencyTracker(String notifyId, String dependentId) {
     if (!kReleaseMode) {

@@ -1,73 +1,44 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 
 import 'implements/notifier_impl.dart';
 
+import 'package:flutter/foundation.dart';
+
+
 class ReactiveNotify<T> extends NotifierImpl<T> {
-  static final Map<UniqueKey, dynamic> _instances = {};
+  static final Map<Key, dynamic> _instances = {};
+  static final Set<ReactiveNotify> _updatingNotifiers = {};
 
-  /// The default value of the state, initialized at the time of instance creation.
-  final T _defaultValue;
+  ReactiveNotify._(super.initialState);
 
-  /// Private constructor to initialize the default value of the state.
-  ReactiveNotify.state(this._defaultValue) : super(_defaultValue);
-
-  /// Factory constructor to create and manage a single instance of `ReactiveNotify` per key.
-  ///
-  /// This constructor takes a function that returns the initial value of the state.
-  /// If an instance for the given key already exists, it returns the existing instance.
-  /// Otherwise, it creates a new instance with the initial value.
-  ///
-  /// Example:
-  /// ```dart
-  /// final connectionState = ReactiveNotify<ConnectionElement>(() => ConnectionElement.connected);
-  /// ```
-  factory ReactiveNotify(T Function() initialValue) {
-    UniqueKey key = UniqueKey();
-
+  factory ReactiveNotify(T Function() initialValue, {Key? keys}) {
+    Key key = keys ?? UniqueKey();
     if (_instances[key] == null) {
-      _instances[key] = ReactiveNotify<T>.state(initialValue());
+      _instances[key] = ReactiveNotify._(initialValue());
     }
-
-    log('ReactiveNotifier.factory instances = $_instances');
-
     return _instances[key] as ReactiveNotify<T>;
   }
 
-  /// Sets a new value to the state and notifies listeners.
-  ///
-  /// Example:
-  /// ```dart
-  /// connectionState.setState(ConnectionElement.error);
-  /// print(connectionState.value); // Output: ConnectionElement.error
-  /// ```
-
-  void setState(T newValue) {
-    value = newValue;
-  }
-
-  /// Resets the state to its default value.
-  ///
-  /// Example:
-  /// ```dart
-  /// connectionState.resetState();
-  /// print(connectionState.value); // Output: ConnectionElement.connected
-  /// ```
-
-  void resetState() {
-    value = _defaultValue;
-  }
-
   @override
-  void dispose() {
-    super.dispose();
-    log('Instance ${value.runtimeType} disposed');
+  void setState(T newState) {
+    if (state != newState && !_updatingNotifiers.contains(this)) {
+      _updatingNotifiers.add(this);
+      try {
+        super.setState(newState);
+      } finally {
+        _updatingNotifiers.remove(this);
+      }
+    }
   }
 
-  void cleanup() {
+  static void cleanup() {
     _instances.clear();
+    _updatingNotifiers.clear();
+  }
 
-    log('_instances = $_instances');
+  static int get instanceCount => _instances.length;
+
+  static int instanceCountByType<S>() {
+    return _instances.values.whereType<ReactiveNotify<S>>().length;
   }
 }

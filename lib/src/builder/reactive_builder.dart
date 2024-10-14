@@ -2,9 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:reactive_notify/src/reactive_notify.dart';
 
 class ReactiveBuilder<T> extends StatefulWidget {
-  final ValueListenable<T> valueListenable;
+  final ReactiveNotify<T> valueListenable;
   final Widget Function(
           BuildContext context, T value, Widget Function(Widget child) keep)
       builder;
@@ -27,7 +28,7 @@ class _ReactiveBuilderState<T> extends State<ReactiveBuilder<T>> {
   @override
   void initState() {
     super.initState();
-    value = widget.valueListenable.value;
+    value = widget.valueListenable.state;
     widget.valueListenable.addListener(_valueChanged);
   }
 
@@ -36,7 +37,7 @@ class _ReactiveBuilderState<T> extends State<ReactiveBuilder<T>> {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.valueListenable != widget.valueListenable) {
       oldWidget.valueListenable.removeListener(_valueChanged);
-      value = widget.valueListenable.value;
+      value = widget.valueListenable.state;
       widget.valueListenable.addListener(_valueChanged);
     }
   }
@@ -56,7 +57,7 @@ class _ReactiveBuilderState<T> extends State<ReactiveBuilder<T>> {
     if (isTesting) {
       debounceTimer = Timer(Duration(milliseconds: 100), () {
         setState(() {
-          value = widget.valueListenable.value;
+          value = widget.valueListenable.state;
         });
       });
     }
