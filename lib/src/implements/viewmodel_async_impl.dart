@@ -9,7 +9,7 @@ import 'notifier_impl.dart';
 abstract class ViewModelAsyncImpl<T> extends NotifierImpl<AsyncState<T>> {
   final RepositoryImpl _repository;
 
-  ViewModelAsyncImpl(this._repository) : super(AsyncState<T>.loading()) {
+  ViewModelAsyncImpl(this._repository) : super() {
     _initialization();
   }
 
@@ -27,6 +27,7 @@ abstract class ViewModelAsyncImpl<T> extends NotifierImpl<AsyncState<T>> {
 
   Future<void> refresh() async {
     try {
+
       setState(AsyncState<T>.refreshing());
       final result = await fetchData();
       setState(AsyncState<T>.success(result));
@@ -35,6 +36,8 @@ abstract class ViewModelAsyncImpl<T> extends NotifierImpl<AsyncState<T>> {
       setState(AsyncState<T>.error(e, stackTrace));
 
     }
+
+    notifyListeners();
   }
 
   Future<void> invalidate() async {

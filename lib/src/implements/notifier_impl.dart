@@ -1,17 +1,27 @@
 import 'package:flutter/foundation.dart';
 
 @protected
-abstract class NotifierImpl<T> extends ChangeNotifier {
-  T _state;
-  NotifierImpl(this._state);
+abstract class NotifierImpl<T> extends ChangeNotifier implements ValueListenable<T> {
+  T _value;
+  NotifierImpl(this._value){
+    if (kFlutterMemoryAllocationsEnabled) {
+      ChangeNotifier.maybeDispatchObjectCreation(this);
+    }
+  }
 
-  T get state => _state;
+  @override
+  T get value => _value;
 
   void setState(T newState) {
-    if (_state != newState) {
-      _state = newState;
+    if (_value == newState) {
+      return;
 
     }
+
+    _value = newState;
     notifyListeners();
   }
+
+  @override
+  String toString() => '${describeIdentity(this)}($value)';
 }
