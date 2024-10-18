@@ -84,7 +84,7 @@ class MyApp extends StatelessWidget {
         onPressed: () {
           /// Variation unconnected and connected.
           reactiveConnectionState.setState(
-              reactiveConnectionState.state == ConnectionState.connected
+              reactiveConnectionState.value == ConnectionState.connected
                   ? ConnectionState.unconnected
                   : ConnectionState.connected);
         },

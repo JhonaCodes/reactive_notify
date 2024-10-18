@@ -21,7 +21,7 @@ class ReactiveNotify<T> extends NotifierImpl<T> {
 
   @override
   void setState(T newState) {
-    if (state != newState && !_updatingNotifiers.contains(this)) {
+    if (value != newState && !_updatingNotifiers.contains(this)) {
       _updatingNotifiers.add(this);
       try {
         super.setState(newState);

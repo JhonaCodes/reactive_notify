@@ -9,7 +9,7 @@ import 'notifier_impl.dart';
 abstract class ViewModelAsyncImpl<T> extends NotifierImpl<AsyncState<T>> {
   final RepositoryImpl _repository;
 
-  ViewModelAsyncImpl(this._repository) : super() {
+  ViewModelAsyncImpl(this._repository) : super(AsyncState.loading()) {
     _initialization();
   }
 
@@ -51,7 +51,7 @@ abstract class ViewModelAsyncImpl<T> extends NotifierImpl<AsyncState<T>> {
     required R Function() loading,
     R Function()? refreshing,
   }) {
-    return state.when(
+    return value.when(
       data: data,
       error: error,
       loading: loading,
