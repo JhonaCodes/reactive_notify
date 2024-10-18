@@ -10,11 +10,12 @@ class AsyncState<T> {
   final AsyncStatus status;
   final T? data;
   final Object? error;
-
+  final StackTrace? stackTrace;
   AsyncState._({
     required this.status,
     this.data,
     this.error,
+    this.stackTrace
   });
 
   factory AsyncState.initial() => AsyncState._(status: AsyncStatus.initial);
@@ -31,7 +32,7 @@ class AsyncState<T> {
     required R Function() initial,
     required R Function() loading,
     required R Function(T data) success,
-    required R Function(Object error) error,
+    required R Function(Object? error, StackTrace? stackTrace) error,
   }) {
     switch (status) {
       case AsyncStatus.initial:
@@ -41,7 +42,7 @@ class AsyncState<T> {
       case AsyncStatus.success:
         return success(data as T);
       case AsyncStatus.error:
-        return error(this.error!);
+        return error(this.error, this.stackTrace);
     }
   }
 }

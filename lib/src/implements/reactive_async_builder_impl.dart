@@ -5,7 +5,7 @@ class ReactiveAsyncBuilder<T> extends StatelessWidget {
   final AsyncViewModel<T> viewModel;
   final Widget Function(T data) buildSuccess;
   final Widget Function()? buildLoading;
-  final Widget Function(Object error)? buildError;
+  final Widget Function(Object? error, StackTrace? stackTrace)? buildError;
   final Widget Function()? buildInitial;
 
   const ReactiveAsyncBuilder({
@@ -26,7 +26,7 @@ class ReactiveAsyncBuilder<T> extends StatelessWidget {
           initial: () => buildInitial?.call() ?? const SizedBox.shrink(),
           loading: () => buildLoading?.call() ?? const Center(child: CircularProgressIndicator()),
           success: (data) => buildSuccess(data),
-          error: (error) => buildError?.call(error) ?? Center(child: Text('Error: $error')),
+          error: (error, stackTrace) => buildError?.call(error, stackTrace) ?? Center(child: Text('Error: $error')),
         );
       },
     );
@@ -55,7 +55,7 @@ abstract class AsyncViewModel<T> extends ChangeNotifier {
     }
   }
 
-  // Métodos protegidos para cambiar el estado
+  // Change state methods
   @protected
   void setStateInitial() {
     _setState(AsyncState.initial());
