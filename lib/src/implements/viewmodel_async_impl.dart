@@ -27,14 +27,17 @@ abstract class ViewModelAsyncImpl<T> extends NotifierImpl<AsyncState<T>> {
 
   Future<void> refresh() async {
     try {
-      setState(AsyncState<T>.refreshing());
+      state = AsyncState<T>.refreshing();
+
       final result = await fetchData();
-      setState(AsyncState<T>.success(result));
+
+      state = AsyncState<T>.success(result);
 
     } catch (e, stackTrace) {
-      setState(AsyncState<T>.error(e, stackTrace));
+      state = AsyncState<T>.error(e, stackTrace);
 
     }
+
   }
 
   Future<void> invalidate() async {
