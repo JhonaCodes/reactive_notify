@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:reactive_notify/src/handler/async_state.dart';
 
-
-
-
 class ReactiveAsyncBuilder<T> extends StatelessWidget {
   final AsyncViewModel<T> viewModel;
   final Widget Function(T data) buildSuccess;
   final Widget Function()? buildLoading;
-  final Widget Function(Object? error, StackTrace? stackTrace)? buildError;
+  final Widget Function(Object error)? buildError;
   final Widget Function()? buildInitial;
 
   const ReactiveAsyncBuilder({
@@ -29,7 +26,7 @@ class ReactiveAsyncBuilder<T> extends StatelessWidget {
           initial: () => buildInitial?.call() ?? const SizedBox.shrink(),
           loading: () => buildLoading?.call() ?? const Center(child: CircularProgressIndicator()),
           success: (data) => buildSuccess(data),
-          error: (error, stackTrace) => buildError?.call(error, stackTrace) ?? Center(child: Text('Error: $error')),
+          error: (error) => buildError?.call(error) ?? Center(child: Text('Error: $error')),
         );
       },
     );
@@ -49,13 +46,34 @@ abstract class AsyncViewModel<T> extends ChangeNotifier {
   }
 
   Future<void> reload() async {
-    _setState(AsyncState.loading());
+    setStateLoading();
     try {
       final result = await fetchData();
-      _setState(AsyncState.success(result));
+      setStateSuccess(result);
     } catch (e) {
-      _setState(AsyncState.error(e));
+      setStateError(e);
     }
+  }
+
+  // Métodos protegidos para cambiar el estado
+  @protected
+  void setStateInitial() {
+    _setState(AsyncState.initial());
+  }
+
+  @protected
+  void setStateLoading() {
+    _setState(AsyncState.loading());
+  }
+
+  @protected
+  void setStateSuccess(T data) {
+    _setState(AsyncState.success(data));
+  }
+
+  @protected
+  void setStateError(Object error) {
+    _setState(AsyncState.error(error));
   }
 
   void _setState(AsyncState<T> newState) {
