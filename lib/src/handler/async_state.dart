@@ -1,53 +1,53 @@
 import 'dart:async';
 import 'dart:developer';
 
-/// Type of async data
-enum AsyncStatus { loading, error, success, refreshing }
 
 /// State of asynd ata, example, success, error, etc
 /// this async state shouldbe inside of asynNotifier for value of type AsyncState.
-class AsyncState<T> {
-  AsyncStatus? status;
-  T? data;
-  AsyncError? error;
+enum AsyncStatus { loading, error, success, refreshing }
 
-  AsyncState.error(this.error)
-      : data = null,
-        status = AsyncStatus.error;
+class AsyncState<T> {
+  final AsyncStatus status;
+  final T? data;
+  final Object? error;
+  final StackTrace? stackTrace;
+
+  AsyncState.error(this.error, this.stackTrace)
+      : status = AsyncStatus.error,
+        data = null;
 
   AsyncState.success(this.data)
-      : error = null,
-        status = AsyncStatus.success;
+      : status = AsyncStatus.success,
+        error = null,
+        stackTrace = null;
 
   AsyncState.loading()
       : status = AsyncStatus.loading,
+        data = null,
         error = null,
-        data = null;
+        stackTrace = null;
 
   AsyncState.refreshing()
       : status = AsyncStatus.refreshing,
+        data = null,
         error = null,
-        data = null;
+        stackTrace = null;
 
-  R on<R>(
-      {required R Function(T? data, AsyncStatus? status) data,
-      required R Function(AsyncError error) error,
-      required R Function() loading}) {
-    try {
-      if (status == AsyncStatus.success) return data(this.data, null);
-      if (status == AsyncStatus.refreshing) return data(null, this.status);
-
-      return loading();
-    } catch (err, stackTrace) {
-      log("Error on data from async state");
-
-      return error(AsyncError(err, stackTrace));
+  R when<R>({
+    required R Function(T data) data,
+    required R Function(Object error, StackTrace? stackTrace) error,
+    required R Function() loading,
+    R Function()? refreshing,
+  }) {
+    switch (status) {
+      case AsyncStatus.success:
+        return data(this.data as T);
+      case AsyncStatus.error:
+        return error(this.error!, this.stackTrace);
+      case AsyncStatus.loading:
+        return loading();
+      case AsyncStatus.refreshing:
+        return refreshing?.call() ?? loading();
     }
-  }
-
-  R notNull<R>(
-      {required R Function(T data) data, required R Function() nullData}) {
-    if (this.data != null) return data(this.data as T);
-    return nullData();
   }
 }

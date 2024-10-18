@@ -1,34 +1,58 @@
 import 'dart:developer';
 
-import 'package:flutter/foundation.dart';
+
 import 'package:reactive_notify/src/handler/async_state.dart';
 import 'package:reactive_notify/src/implements/repository_impl.dart';
-import 'package:reactive_notify/src/tracker/state_tracker.dart';
 
 import 'notifier_impl.dart';
 
 abstract class ViewModelAsyncImpl<T> extends NotifierImpl<AsyncState<T>> {
-  final String? _id;
-  final String? _location;
   final RepositoryImpl _repository;
 
-  ViewModelAsyncImpl(this._repository, super._data, this._id, this._location) {
+  ViewModelAsyncImpl(this._repository) : super(AsyncState<T>.loading()) {
     _initialization();
-    if (!kReleaseMode && (_id != null && _location != null)) {
-      StateTracker.setLocation(_id, _location);
+  }
+
+  Future<T> fetchData();
+
+  bool _initialized = false;
+
+  Future<void> _initialization() async {
+    if (!_initialized) {
+      log('ViewmodelAsyncImpl.asyncInit');
+      await refresh();
+      _initialized = true;
     }
   }
 
-  Future<T> init();
+  Future<void> refresh() async {
+    try {
+      setState(AsyncState<T>.refreshing());
+      final result = await fetchData();
+      setState(AsyncState<T>.success(result));
 
-  bool _initialized = false;
-  Future<void> _initialization() async {
-    if (!_initialized) {
-      log('ViewmodelAsyncI.asyncInit');
+    } catch (e, stackTrace) {
+      setState(AsyncState<T>.error(e, stackTrace));
 
-      await init();
-
-      _initialized = true;
     }
+  }
+
+  Future<void> invalidate() async {
+    _initialized = false;
+    await _initialization();
+  }
+
+  R when<R>({
+    required R Function(T data) data,
+    required R Function(Object error, StackTrace? stackTrace) error,
+    required R Function() loading,
+    R Function()? refreshing,
+  }) {
+    return state.when(
+      data: data,
+      error: error,
+      loading: loading,
+      refreshing: refreshing,
+    );
   }
 }
