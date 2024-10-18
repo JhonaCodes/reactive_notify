@@ -6,7 +6,10 @@ abstract class NotifierImpl<T> extends ChangeNotifier {
   NotifierImpl(this._state);
 
   T get state => _state;
-
+  set state(T newState) {
+    state = newState;
+    notifyListeners();
+  }
   void setState(T newState) {
     if (_state != newState) {
       _state = newState;
