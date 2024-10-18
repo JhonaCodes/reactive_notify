@@ -4,7 +4,7 @@ import 'dart:developer';
 
 /// State of asynd ata, example, success, error, etc
 /// this async state shouldbe inside of asynNotifier for value of type AsyncState.
-enum AsyncStatus { loading, error, success, refreshing }
+enum AsyncStatus { initial, loading, success, error }
 
 class AsyncState<T> {
   final AsyncStatus status;
@@ -12,42 +12,38 @@ class AsyncState<T> {
   final Object? error;
   final StackTrace? stackTrace;
 
-  AsyncState.error(this.error, this.stackTrace)
-      : status = AsyncStatus.error,
-        data = null;
+  AsyncState._({
+    required this.status,
+    this.data,
+    this.error,
+    this.stackTrace
+  });
 
-  AsyncState.success(this.data)
-      : status = AsyncStatus.success,
-        error = null,
-        stackTrace = null;
+  factory AsyncState.initial() => AsyncState._(status: AsyncStatus.initial);
+  factory AsyncState.loading() => AsyncState._(status: AsyncStatus.loading);
+  factory AsyncState.success(T data) => AsyncState._(status: AsyncStatus.success, data: data);
+  factory AsyncState.error(Object error) => AsyncState._(status: AsyncStatus.error, error: error);
 
-  AsyncState.loading()
-      : status = AsyncStatus.loading,
-        data = null,
-        error = null,
-        stackTrace = null;
-
-  AsyncState.refreshing()
-      : status = AsyncStatus.refreshing,
-        data = null,
-        error = null,
-        stackTrace = null;
+  bool get isInitial => status == AsyncStatus.initial;
+  bool get isLoading => status == AsyncStatus.loading;
+  bool get isSuccess => status == AsyncStatus.success;
+  bool get isError => status == AsyncStatus.error;
 
   R when<R>({
-    required R Function(T data) data,
-    required R Function(Object error, StackTrace? stackTrace) error,
+    required R Function() initial,
     required R Function() loading,
-    R Function()? refreshing,
+    required R Function(T data) success,
+    required R Function(Object? error, StackTrace? stackTrace) error,
   }) {
     switch (status) {
-      case AsyncStatus.success:
-        return data(this.data as T);
-      case AsyncStatus.error:
-        return error(this.error!, this.stackTrace);
+      case AsyncStatus.initial:
+        return initial();
       case AsyncStatus.loading:
         return loading();
-      case AsyncStatus.refreshing:
-        return refreshing?.call() ?? loading();
+      case AsyncStatus.success:
+        return success(data as T);
+      case AsyncStatus.error:
+        return error(this.error!, this.stackTrace!);
     }
   }
 }
