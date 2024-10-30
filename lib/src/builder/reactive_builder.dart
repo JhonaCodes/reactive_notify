@@ -53,7 +53,7 @@ class _ReactiveBuilderState<T> extends State<ReactiveBuilder<T>> {
     debounceTimer?.cancel();
 
     // Start a new timer. After 100 milliseconds, update the state and rebuild the widget.
-    if (isTesting) {
+    if (!isTesting) {
       debounceTimer = Timer(Duration(milliseconds: 100), () {
         setState(() {
           value = widget.valueListenable.value;
@@ -99,5 +99,5 @@ class _NoRebuildWrapperState extends State<_NoRebuildWrapper> {
 }
 
 bool get isTesting {
-  return const bool.fromEnvironment('dart.vm.product') == false;
+  return const bool.fromEnvironment('dart.vm.product') == true;
 }
