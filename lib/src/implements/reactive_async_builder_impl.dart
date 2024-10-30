@@ -24,7 +24,7 @@ class ReactiveAsyncBuilder<T> extends StatelessWidget {
       builder: (context, _) {
         return viewModel.state.when(
           initial: () => buildInitial?.call() ?? const SizedBox.shrink(),
-          loading: () => buildLoading?.call() ?? const Center(child: CircularProgressIndicator()),
+          loading: () => buildLoading?.call() ?? const Center(child: CircularProgressIndicator.adaptive()),
           success: (data) => buildSuccess(data),
           error: (error, stackTrace) => buildError?.call(error, stackTrace) ?? Center(child: Text('Error: $error')),
         );
