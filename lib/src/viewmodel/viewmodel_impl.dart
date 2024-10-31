@@ -2,9 +2,9 @@ import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
 import 'package:reactive_notify/src/tracker/state_tracker.dart';
-import 'repository_impl.dart';
+import '../implements/repository_impl.dart';
 
-import 'notifier_impl.dart';
+import '../implements/notifier_impl.dart';
 
 abstract class ViewModelImpl<T> extends NotifierImpl<T> {
   final String? _id;

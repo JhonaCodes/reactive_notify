@@ -17,8 +17,8 @@ export 'src/builder/reactive_builder.dart';
 export 'src/handler/async_state.dart';
 
 /// Export ViewModelImpl
-export 'src/implements/viewmodel_impl.dart';
-export 'src/implements/reactive_async_builder_impl.dart';
+export 'src/viewmodel/viewmodel_impl.dart';
+export 'src/viewmodel/async_viewmodel_impl.dart';
 
 
 /// Export RepositoryImpl

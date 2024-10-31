@@ -1,50 +1,6 @@
-import 'package:flutter/material.dart';
-
+import 'dart:developer';
 import 'implements/notifier_impl.dart';
-
 import 'package:flutter/foundation.dart';
-
-/*
-class ReactiveNotify<T> extends NotifierImpl<T> {
-  static final Map<Key, dynamic> _instances = {};
-  static final Set<ReactiveNotify> _updatingNotifiers = {};
-
-  ReactiveNotify._(super.initialState);
-
-  factory ReactiveNotify(T Function() initialValue, {Key? keys}) {
-    Key key = keys ?? UniqueKey();
-    if (_instances[key] == null) {
-      _instances[key] = ReactiveNotify._(initialValue());
-    }
-    return _instances[key] as ReactiveNotify<T>;
-  }
-
-  @override
-  void setState(T newState) {
-    if (value != newState && !_updatingNotifiers.contains(this)) {
-      _updatingNotifiers.add(this);
-      try {
-        super.setState(newState);
-      } finally {
-        _updatingNotifiers.remove(this);
-      }
-    }
-  }
-
-  static void cleanup() {
-    _instances.clear();
-    _updatingNotifiers.clear();
-  }
-
-  static int get instanceCount => _instances.length;
-
-  static int instanceCountByType<S>() {
-    return _instances.values.whereType<ReactiveNotify<S>>().length;
-  }
-}
-*/
-
-// reactive_notify.dart
 
 /// A reactive state management solution that supports:
 /// - Singleton instances with key-based identity
@@ -72,9 +28,9 @@ class ReactiveNotify<T> extends NotifierImpl<T> {
       : super(create()) {
     if (related != null) {
       assert(() {
-        print('''
+        log('''
 🔍 Setting up relations for ReactiveNotify<$T>
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━''');
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━''', level: 10);
         return true;
       }());
 
@@ -82,8 +38,8 @@ class ReactiveNotify<T> extends NotifierImpl<T> {
       related?.forEach((child) {
         child._parents.add(this);
         assert(() {
-          print(
-              '➕ Added parent-child relation: $T -> ${child.value.runtimeType}');
+          log(
+              '➕ Added parent-child relation: $T -> ${child.value.runtimeType}', level: 10);
           return true;
         }());
       });
@@ -101,10 +57,10 @@ class ReactiveNotify<T> extends NotifierImpl<T> {
     key ??= UniqueKey();
 
     assert(() {
-      print('''
+      log('''
 📦 Creating ReactiveNotify<$T>
 ${related != null ? '🔗 With related types: ${related.map((r) => r.value.runtimeType).join(', ')}' : ''}
-''');
+''', level: 5);
       return true;
     }());
 
@@ -159,7 +115,7 @@ Location: $trace
       _checkNotificationOverflow();
 
       assert(() {
-        print('📝 Updating state for $T: $value -> $newState');
+        log('📝 Updating state for $T: $value -> $newState', level: 10);
         return true;
       }());
 
@@ -172,11 +128,13 @@ Location: $trace
         // Notificar a los padres si existen
         if (_parents.isNotEmpty) {
           assert(() {
-            print('📤 Notifying parent states for $T');
+            log('📤 Notifying parent states for $T', level: 10);
             return true;
           }());
 
-          _parents.forEach((parent) => parent.notifyListeners());
+          for (var parent in _parents) {
+            parent.notifyListeners();
+          }
         }
       } finally {
         _updatingNotifiers.remove(this);
@@ -200,7 +158,7 @@ Location: $trace
 
       if (_notificationCount >= _notificationThreshold) {
         assert(() {
-          print('''
+          log('''
 ⚠️ Notification Overflow Detected!
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Notifier: ${describeIdentity(this)}
@@ -221,7 +179,7 @@ $_notificationCount notifications in ${_thresholdTimeWindow.inMilliseconds}ms
    - Verify update logic
    - Consider debouncing rapid updates
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-''');
+''',level: 100);
           return true;
         }());
       }
@@ -400,8 +358,8 @@ ${_formatNotifierInfo(child)}
   /// Gets a related state by type
   R from<R>([Key? key]) {
     assert(() {
-      print(
-          '🔍 Getting related state of type $R from $T${key != null ? ' with key: $key' : ''}');
+      log(
+          '🔍 Getting related state of type $R from $T${key != null ? ' with key: $key' : ''}', level: 10);
       return true;
     }());
 
