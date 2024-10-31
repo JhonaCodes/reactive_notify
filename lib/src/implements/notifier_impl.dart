@@ -22,6 +22,10 @@ abstract class NotifierImpl<T> extends ChangeNotifier implements ValueListenable
     notifyListeners();
   }
 
+  void setValueNonState(T newState){
+    _value = newState;
+  }
+
   @override
   String toString() => '${describeIdentity(this)}($value)';
 }

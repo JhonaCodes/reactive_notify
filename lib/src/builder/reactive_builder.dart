@@ -51,6 +51,7 @@ class _ReactiveBuilderState<T> extends State<ReactiveBuilder<T>> {
   void _valueChanged() {
     // Cancel any existing timer to prevent multiple updates within the debounce period.
     debounceTimer?.cancel();
+    assert(debounceTimer?.isActive == true, "debounce is currently active and will not be successfully cancelled.");
 
     // Start a new timer. After 100 milliseconds, update the state and rebuild the widget.
     if (!isTesting) {
