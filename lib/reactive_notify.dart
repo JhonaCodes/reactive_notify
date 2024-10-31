@@ -16,6 +16,10 @@ export 'src/builder/reactive_builder.dart';
 /// Export the [AsyncState]
 export 'src/handler/async_state.dart';
 
+/// Export [ReactiveAsyncBuilder] and [ReactiveStreamBuilder]
+export 'src/builder/reactive_async_builder.dart';
+export 'src/builder/reactive_stream_builder_impl.dart';
+
 /// Export ViewModelImpl
 export 'src/viewmodel/viewmodel_impl.dart';
 export 'src/viewmodel/async_viewmodel_impl.dart';
