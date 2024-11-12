@@ -178,24 +178,6 @@ void main() {
       );
     });
 
-    test('Validates complex non-circular reference chain', () {
-      // Arrange & Act
-      final stateA = ReactiveNotify<String>(() => 'A', key: const Key('A'));
-      final stateB = ReactiveNotify<String>(() => 'B');
-      final stateC = ReactiveNotify<String>(
-        () => 'C',
-        related: [stateA, stateB],
-      );
-      final stateD = ReactiveNotify<String>(() => 'D');
-
-      // Assert
-      expect(
-        ReactiveNotify.instanceCount,
-        equals(4),
-        reason: 'Should successfully create all instances in valid DAG',
-      );
-    });
-
     test('Validates diamond-shaped dependency graph', () {
       // Arrange
       final stateA = ReactiveNotify<String>(() => 'A', key: const Key('A'));

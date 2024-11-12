@@ -4,7 +4,6 @@ import 'package:flutter/foundation.dart';
 
 enum LogLevel { debug, info, warning, error }
 
-@Deprecated("Change by internal api soon.")
 class StateTracker {
   static final Map<String, Set<String>> _dependencyGraph = {};
   static final Map<String, String> _locationMap = {};
