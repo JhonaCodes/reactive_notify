@@ -295,8 +295,7 @@ Notifier: CartState
 ❌ Problem: Excessive updates detected
 ✅ Solution: Review update logic and consider debouncing
 ```
-
-[Previous debugging messages remain the same...]
+And more..
 
 ## Best Practices
 
