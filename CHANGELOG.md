@@ -1,3 +1,49 @@
+## 2.0.0
+### Breaking Changes 🚨
+- Complete project architecture overhaul
+- New reference handling system
+- Changed how related states are managed
+
+### New Features 🎉
+- **Enhanced Debugging System**
+    - Improved error messages
+    - Better stack traces
+    - Detailed circular reference detection
+
+- **Advanced State Management**
+    - Support for nested ReactiveNotify instances in related states
+    - Improved multiple reference handling
+    - Better state isolation and context management
+
+- **Async & Stream Support**
+    - Built-in async state handling
+    - Stream state management
+    - Automatic state synchronization
+
+- **Extended Testing Support**
+    - More test cases
+    - Better coverage
+    - Improved testing utilities
+
+### Improvements 🔧
+- Better performance in state updates
+- Reduced memory footprint
+- Improved type safety
+- Enhanced error handling
+- Better documentation
+
+### Bug Fixes 🐛
+- Fixed issues with circular references
+- Improved state cleanup
+- Better error reporting
+- Fixed memory leaks in complex state trees
+
+### Documentation 📚
+- Complete documentation overhaul
+- New examples and use cases
+- Better API documentation
+- Improved error messages
+
 ## 1.0.5
 - Update documentation.
 
