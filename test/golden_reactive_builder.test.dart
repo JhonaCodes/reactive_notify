@@ -106,7 +106,6 @@ void main() {
 
 final ReactiveNotify<int> valueNotifier = ReactiveNotify(() => 0);
 
-
 class NonRebuildWidget extends StatelessWidget {
   NonRebuildWidget({super.key});
   @override

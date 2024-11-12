@@ -1,9 +1,10 @@
 import 'package:flutter/foundation.dart';
 
 @protected
-abstract class NotifierImpl<T> extends ChangeNotifier implements ValueListenable<T> {
+abstract class NotifierImpl<T> extends ChangeNotifier
+    implements ValueListenable<T> {
   T _value;
-  NotifierImpl(this._value){
+  NotifierImpl(this._value) {
     if (kFlutterMemoryAllocationsEnabled) {
       ChangeNotifier.maybeDispatchObjectCreation(this);
     }
@@ -15,14 +16,13 @@ abstract class NotifierImpl<T> extends ChangeNotifier implements ValueListenable
   void setState(T newState) {
     if (_value == newState) {
       return;
-
     }
 
     _value = newState;
     notifyListeners();
   }
 
-  void setValueNonState(T newState){
+  void setValueNonState(T newState) {
     _value = newState;
   }
 

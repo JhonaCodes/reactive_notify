@@ -26,7 +26,8 @@ class _StreamStateInitial<T> extends StreamState<T> {
     required R Function(T data) data,
     required R Function(Object error) error,
     required R Function() done,
-  }) => initial();
+  }) =>
+      initial();
 }
 
 class _StreamStateLoading<T> extends StreamState<T> {
@@ -39,7 +40,8 @@ class _StreamStateLoading<T> extends StreamState<T> {
     required R Function(T data) data,
     required R Function(Object error) error,
     required R Function() done,
-  }) => loading();
+  }) =>
+      loading();
 }
 
 class _StreamStateData<T> extends StreamState<T> {
@@ -53,7 +55,8 @@ class _StreamStateData<T> extends StreamState<T> {
     required R Function(T data) data,
     required R Function(Object error) error,
     required R Function() done,
-  }) => data(this.data);
+  }) =>
+      data(this.data);
 }
 
 class _StreamStateError<T> extends StreamState<T> {
@@ -67,7 +70,8 @@ class _StreamStateError<T> extends StreamState<T> {
     required R Function(T data) data,
     required R Function(Object error) error,
     required R Function() done,
-  }) => error(this.error);
+  }) =>
+      error(this.error);
 }
 
 class _StreamStateDone<T> extends StreamState<T> {
@@ -80,5 +84,6 @@ class _StreamStateDone<T> extends StreamState<T> {
     required R Function(T data) data,
     required R Function(Object error) error,
     required R Function() done,
-  }) => done();
+  }) =>
+      done();
 }

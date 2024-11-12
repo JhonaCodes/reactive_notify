@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
 
-
 /// State of asynd ata, example, success, error, etc
 /// this async state shouldbe inside of asynNotifier for value of type AsyncState.
 enum AsyncStatus { initial, loading, success, error }
@@ -11,17 +10,14 @@ class AsyncState<T> {
   final T? data;
   final Object? error;
   final StackTrace? stackTrace;
-  AsyncState._({
-    required this.status,
-    this.data,
-    this.error,
-    this.stackTrace
-  });
+  AsyncState._({required this.status, this.data, this.error, this.stackTrace});
 
   factory AsyncState.initial() => AsyncState._(status: AsyncStatus.initial);
   factory AsyncState.loading() => AsyncState._(status: AsyncStatus.loading);
-  factory AsyncState.success(T data) => AsyncState._(status: AsyncStatus.success, data: data);
-  factory AsyncState.error(Object error) => AsyncState._(status: AsyncStatus.error, error: error);
+  factory AsyncState.success(T data) =>
+      AsyncState._(status: AsyncStatus.success, data: data);
+  factory AsyncState.error(Object error) =>
+      AsyncState._(status: AsyncStatus.error, error: error);
 
   bool get isInitial => status == AsyncStatus.initial;
   bool get isLoading => status == AsyncStatus.loading;

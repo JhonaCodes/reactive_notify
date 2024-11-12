@@ -54,11 +54,10 @@ class MyApp extends StatelessWidget {
             /// 1. [ReactiveNotify] Current connection state
             ReactiveBuilder<ConnectionState>(
               valueListenable: reactiveConnectionState,
-              builder: ( context, state, keep) {
+              builder: (context, state, keep) {
                 bool isConnected = state == ConnectionState.connected;
                 return Column(
                   children: [
-
                     /// Prevents the widget from rebuilding.
                     /// Useful when you want to reuse it in another ReactiveBuilder.
                     keep(Text("No state update")),

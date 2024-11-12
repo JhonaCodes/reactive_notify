@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:reactive_notify/src/handler/async_state.dart';
 
-
-
 abstract class AsyncViewModelImpl<T> extends ChangeNotifier {
   AsyncState<T> _state = AsyncState.initial();
   AsyncState<T> get state => _state;
@@ -53,5 +51,3 @@ abstract class AsyncViewModelImpl<T> extends ChangeNotifier {
 
   Future<T> fetchData();
 }
-
-

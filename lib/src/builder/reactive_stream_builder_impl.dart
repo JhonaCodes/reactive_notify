@@ -23,7 +23,8 @@ class ReactiveStreamBuilder<T> extends StatefulWidget {
   });
 
   @override
-  State<ReactiveStreamBuilder<T>> createState() => _ReactiveStreamBuilderState<T>();
+  State<ReactiveStreamBuilder<T>> createState() =>
+      _ReactiveStreamBuilderState<T>();
 }
 
 class _ReactiveStreamBuilderState<T> extends State<ReactiveStreamBuilder<T>> {
@@ -53,7 +54,7 @@ class _ReactiveStreamBuilderState<T> extends State<ReactiveStreamBuilder<T>> {
     setState(() => _state = StreamState.loading());
 
     _subscription = stream.listen(
-          (data) => setState(() => _state = StreamState.data(data)),
+      (data) => setState(() => _state = StreamState.data(data)),
       onError: (error) => setState(() => _state = StreamState.error(error)),
       onDone: () => setState(() => _state = StreamState.done()),
     );
@@ -68,10 +69,12 @@ class _ReactiveStreamBuilderState<T> extends State<ReactiveStreamBuilder<T>> {
   Widget build(BuildContext context) {
     return _state.when(
       initial: () => widget.buildEmpty?.call() ?? const SizedBox.shrink(),
-      loading: () => widget.buildLoading?.call() ??
+      loading: () =>
+          widget.buildLoading?.call() ??
           const Center(child: CircularProgressIndicator.adaptive()),
       data: (data) => widget.buildData(data),
-      error: (error) => widget.buildError?.call(error) ??
+      error: (error) =>
+          widget.buildError?.call(error) ??
           Center(child: Text('Error: $error')),
       done: () => widget.buildDone?.call() ?? const SizedBox.shrink(),
     );

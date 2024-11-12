@@ -38,8 +38,8 @@ class ReactiveNotify<T> extends NotifierImpl<T> {
       related?.forEach((child) {
         child._parents.add(this);
         assert(() {
-          log(
-              '➕ Added parent-child relation: $T -> ${child.value.runtimeType}', level: 10);
+          log('➕ Added parent-child relation: $T -> ${child.value.runtimeType}',
+              level: 10);
           return true;
         }());
       });
@@ -179,7 +179,7 @@ $_notificationCount notifications in ${_thresholdTimeWindow.inMilliseconds}ms
    - Verify update logic
    - Consider debouncing rapid updates
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-''',level: 100);
+''', level: 100);
           return true;
         }());
       }
@@ -358,8 +358,8 @@ ${_formatNotifierInfo(child)}
   /// Gets a related state by type
   R from<R>([Key? key]) {
     assert(() {
-      log(
-          '🔍 Getting related state of type $R from $T${key != null ? ' with key: $key' : ''}', level: 10);
+      log('🔍 Getting related state of type $R from $T${key != null ? ' with key: $key' : ''}',
+          level: 10);
       return true;
     }());
 

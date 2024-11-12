@@ -34,7 +34,6 @@ abstract class ViewModelImpl<T> extends NotifierImpl<T> {
     }
   }
 
-
   void addDependencyTracker(String notifyId, String dependentId) {
     if (!kReleaseMode) {
       StateTracker.addDependency(notifyId, dependentId);

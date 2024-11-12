@@ -24,7 +24,6 @@ export 'src/builder/reactive_stream_builder_impl.dart';
 export 'src/viewmodel/viewmodel_impl.dart';
 export 'src/viewmodel/async_viewmodel_impl.dart';
 
-
 /// Export RepositoryImpl
 export 'src/implements/repository_impl.dart';
 

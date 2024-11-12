@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:reactive_notify/reactive_notify.dart';
 
-
 void main() {
   group('ReactiveNotify Circular Reference Tests', () {
     tearDown(() {
@@ -15,8 +14,8 @@ void main() {
 
       // Act & Assert
       expect(
-            () => ReactiveNotify<String>(
-              () => 'B',
+        () => ReactiveNotify<String>(
+          () => 'B',
           related: [stateA],
           key: const Key('B'),
         ),
@@ -25,26 +24,31 @@ void main() {
       );
     });
 
-    test('Detects circular reference when a state tries to reference its ancestor', () {
+    test(
+        'Detects circular reference when a state tries to reference its ancestor',
+        () {
       // Arrange
       final stateA = ReactiveNotify<String>(
-            () => 'A',
+        () => 'A',
       );
 
       final stateB = ReactiveNotify<String>(
-            () => 'B',
+        () => 'B',
         related: [stateA], // B depende de A
       );
 
       // Act & Assert
       expect(
-            () => ReactiveNotify<String>(
-              () => 'C',
-          related: [stateB, stateA], // Intenta depender de B (que ya depende de A) y de A
+        () => ReactiveNotify<String>(
+          () => 'C',
+          related: [
+            stateB,
+            stateA
+          ], // Intenta depender de B (que ya depende de A) y de A
         ),
         throwsA(
           isA<StateError>().having(
-                (e) => e.toString(),
+            (e) => e.toString(),
             'error message',
             allOf([
               contains('⚠️ Invalid Reference Structure Detected!'),
@@ -57,7 +61,8 @@ void main() {
             ]),
           ),
         ),
-        reason: 'Should detect and provide detailed error when attempting to reference an ancestor state',
+        reason:
+            'Should detect and provide detailed error when attempting to reference an ancestor state',
       );
     });
 
@@ -69,8 +74,12 @@ void main() {
       states.add(stateA);
 
       // Act & Assert
-      expect(() {
-          final stateB = ReactiveNotify<String>(() => 'B', related: states,);
+      expect(
+        () {
+          final stateB = ReactiveNotify<String>(
+            () => 'B',
+            related: states,
+          );
           states.add(stateB);
 
           // Intentar crear un estado que cierre el ciclo
@@ -81,7 +90,7 @@ void main() {
         },
         throwsA(
           isA<StateError>().having(
-                (e) => e.toString(),
+            (e) => e.toString(),
             'error message',
             allOf([
               contains('⚠️ ReactiveNotify Creation Failed!'),
@@ -91,7 +100,8 @@ void main() {
             ]),
           ),
         ),
-        reason: 'Should detect and provide detailed error when attempting to reference an ancestor state',
+        reason:
+            'Should detect and provide detailed error when attempting to reference an ancestor state',
       );
     });
 
@@ -100,17 +110,16 @@ void main() {
       final stateA = ReactiveNotify<String>(() => 'A');
 
       /// This si bad, should be create a notifier with stateA and stateB
-      final stateB = ReactiveNotify<String>(() => 'B',
-          related: [stateA]
-      );
+      final stateB = ReactiveNotify<String>(() => 'B', related: [stateA]);
 
-
-      expect(()=>ReactiveNotify<String>(() => 'C',
-        related: [stateB],
-      ),
+      expect(
+        () => ReactiveNotify<String>(
+          () => 'C',
+          related: [stateB],
+        ),
         throwsA(
           isA<StateError>().having(
-                (e) => e.toString(),
+            (e) => e.toString(),
             'error message',
             allOf([
               contains('⚠️ Invalid Reference Structure Detected!'),
@@ -123,7 +132,8 @@ void main() {
             ]),
           ),
         ),
-        reason: 'Should detect and provide detailed error when attempting to reference an ancestor state',
+        reason:
+            'Should detect and provide detailed error when attempting to reference an ancestor state',
       );
     });
 
@@ -133,27 +143,24 @@ void main() {
 
       // Act & Assert
       expect(
-            () {
-          final stateB = ReactiveNotify<String>(() => 'B',
+        () {
+          final stateB = ReactiveNotify<String>(
+            () => 'B',
             related: [stateA],
           );
 
-          final stateC = ReactiveNotify<String>(() => 'C',
+          final stateC = ReactiveNotify<String>(
+            () => 'C',
             related: [stateB],
           );
 
-          final stateD = ReactiveNotify<String>(
-                () => 'D',
-            related: [stateC]
-          );
+          final stateD = ReactiveNotify<String>(() => 'D', related: [stateC]);
 
-          ReactiveNotify<String>(() => 'A',
-            related: [stateD]
-          );
+          ReactiveNotify<String>(() => 'A', related: [stateD]);
         },
         throwsA(
           isA<StateError>().having(
-                (e) => e.toString(),
+            (e) => e.toString(),
             'error message',
             allOf([
               contains('⚠️ Invalid Reference Structure Detected!'),
@@ -166,7 +173,8 @@ void main() {
             ]),
           ),
         ),
-        reason: 'Should detect and provide detailed error when attempting to reference an ancestor state',
+        reason:
+            'Should detect and provide detailed error when attempting to reference an ancestor state',
       );
     });
 
@@ -174,7 +182,8 @@ void main() {
       // Arrange & Act
       final stateA = ReactiveNotify<String>(() => 'A', key: const Key('A'));
       final stateB = ReactiveNotify<String>(() => 'B');
-      final stateC = ReactiveNotify<String>(() => 'C',
+      final stateC = ReactiveNotify<String>(
+        () => 'C',
         related: [stateA, stateB],
       );
       final stateD = ReactiveNotify<String>(() => 'D');
@@ -191,23 +200,25 @@ void main() {
       // Arrange
       final stateA = ReactiveNotify<String>(() => 'A', key: const Key('A'));
 
-      final stateB1 = ReactiveNotify<String>(() => 'B1',
+      final stateB1 = ReactiveNotify<String>(
+        () => 'B1',
         related: [stateA],
       );
 
-      final stateB2 = ReactiveNotify<String>(() => 'B2',
+      final stateB2 = ReactiveNotify<String>(
+        () => 'B2',
         related: [stateA],
       );
 
       // Act & Assert
       expect(
-            () => ReactiveNotify<String>(
-              () => 'C',
+        () => ReactiveNotify<String>(
+          () => 'C',
           related: [stateB1, stateB2],
         ),
         throwsA(
           isA<StateError>().having(
-                (e) => e.toString(),
+            (e) => e.toString(),
             'error message',
             allOf([
               contains('⚠️ Invalid Reference Structure Detected!'),
@@ -220,24 +231,24 @@ void main() {
             ]),
           ),
         ),
-        reason: 'Should detect and provide detailed error when attempting to reference an ancestor state',
+        reason:
+            'Should detect and provide detailed error when attempting to reference an ancestor state',
       );
     });
 
     test('Detects self-referential circular dependency', () {
-
       // Arrange
       final stateA = ReactiveNotify<String>(() => 'A', key: const Key('A'));
       // Act & Assert
       expect(
-            () => ReactiveNotify<String>(
-                  () => 'A',
-              related: [stateA],
-              key: const Key('A'),
-            ),
+        () => ReactiveNotify<String>(
+          () => 'A',
+          related: [stateA],
+          key: const Key('A'),
+        ),
         throwsA(
           isA<StateError>().having(
-                (e) => e.toString(),
+            (e) => e.toString(),
             'error message',
             allOf([
               contains('⚠️ Invalid Reference Structure Detected!'),
@@ -248,7 +259,8 @@ void main() {
             ]),
           ),
         ),
-        reason: 'Should detect and provide a detailed error when attempting to create a notifier with a duplicate or self-referential key',
+        reason:
+            'Should detect and provide a detailed error when attempting to create a notifier with a duplicate or self-referential key',
       );
     });
 
@@ -258,27 +270,27 @@ void main() {
       final stateA2 = ReactiveNotify<String>(() => 'A2', key: const Key('A2'));
 
       final stateB1 = ReactiveNotify<String>(
-            () => 'B1',
+        () => 'B1',
         related: [stateA1],
         key: const Key('B1'),
       );
 
       final stateB2 = ReactiveNotify<String>(
-            () => 'B2',
+        () => 'B2',
         related: [stateA2],
         key: const Key('B2'),
       );
 
       // Act & Assert
       expect(
-            () => ReactiveNotify<String>(
-              () => 'C',
+        () => ReactiveNotify<String>(
+          () => 'C',
           related: [stateB1, stateB2],
           key: const Key('C'),
         ),
         throwsA(
           isA<StateError>().having(
-                (e) => e.toString(),
+            (e) => e.toString(),
             'error message',
             allOf([
               contains('⚠️ Invalid Reference Structure Detected!'),
@@ -291,36 +303,34 @@ void main() {
             ]),
           ),
         ),
-        reason: 'Should detect and provide detailed error when attempting to reference an ancestor state',
+        reason:
+            'Should detect and provide detailed error when attempting to reference an ancestor state',
       );
     });
 
     test('Validates independent dependencies without nesting', () {
-
       final firstNotifier2 = ReactiveNotify<String>(
-            () => 'Level -1',
+        () => 'Level -1',
         key: const Key('Level -1'),
       );
 
-
       // Arrange
       final firstNotifier = ReactiveNotify<String>(
-            () => 'Level 0',
+        () => 'Level 0',
         key: const Key('Level 0'),
       );
 
       final secondNotifier = ReactiveNotify<String>(
-            () => 'Level 1',
+        () => 'Level 1',
         related: [firstNotifier, firstNotifier2],
         key: const Key('Level 1'),
       );
 
       final thirdNotifier = ReactiveNotify<String>(
-            () => 'Level 2',
+        () => 'Level 2',
         related: [firstNotifier], // Solo se relaciona con el primer notifier
         key: const Key('Level 2'),
       );
-
 
       // Assert
       expect(
@@ -333,8 +343,6 @@ void main() {
       expect(firstNotifier.value, equals('Level 0'));
       expect(secondNotifier.value, equals('Level 1'));
       expect(thirdNotifier.value, equals('Level 2'));
-
     });
-
   });
 }
