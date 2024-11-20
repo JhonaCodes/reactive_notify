@@ -106,7 +106,6 @@ Location: $trace
   @override
   void updateState(T newState) {
     if (value != newState) {
-
       // Prevent circular update
       if (_updatingNotifiers.contains(this)) {
         return;
@@ -123,7 +122,6 @@ Location: $trace
       _updatingNotifiers.add(this);
 
       try {
-
         // Update value and notify
         super.updateState(newState);
 

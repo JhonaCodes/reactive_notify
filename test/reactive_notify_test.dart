@@ -138,7 +138,8 @@ void main() {
         final weatherDescription = ReactiveNotify<String>(() => 'Freezing');
 
         temperatureCelsius.addListener(() {
-          temperatureFahrenheit.updateState(temperatureCelsius.value * 9 / 5 + 32);
+          temperatureFahrenheit
+              .updateState(temperatureCelsius.value * 9 / 5 + 32);
         });
 
         temperatureFahrenheit.addListener(() {

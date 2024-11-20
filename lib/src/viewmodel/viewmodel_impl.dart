@@ -52,7 +52,6 @@ abstract class ViewModelImpl<T> extends NotifierImpl<T> {
   }
 }
 
-
 /// [ViewModelStateImpl]
 /// Base ViewModel implementation for simple state management without repository dependencies.
 /// Use this when you only need to handle UI state without domain logic or data layer interactions.
@@ -62,8 +61,7 @@ abstract class ViewModelStateImpl<T> extends NotifierImpl<T> {
   final String? _id;
   final String? _location;
 
-
-  ViewModelStateImpl( super._data, [this._id, this._location]) {
+  ViewModelStateImpl(super._data, [this._id, this._location]) {
     _initialization();
 
     if (!kReleaseMode && (_id != null && _location != null)) {

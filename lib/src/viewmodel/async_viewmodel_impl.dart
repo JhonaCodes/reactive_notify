@@ -47,5 +47,4 @@ abstract class AsyncViewModelImpl<T> extends ChangeNotifier {
     _state = newState;
     notifyListeners();
   }
-
 }
