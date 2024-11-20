@@ -13,7 +13,10 @@ abstract class NotifierImpl<T> extends ChangeNotifier
   @override
   T get value => _value;
 
-  void setState(T newState) {
+  /// [updateState]
+  /// Updates the state and notifies listeners if the value has changed.
+  ///
+  void updateState(T newState) {
     if (_value == newState) {
       return;
     }
@@ -22,7 +25,10 @@ abstract class NotifierImpl<T> extends ChangeNotifier
     notifyListeners();
   }
 
-  void setValueNonState(T newState) {
+  /// [updateSilently]
+  /// Updates the value silently without notifying listeners.
+  ///
+  void updateSilently(T newState) {
     _value = newState;
   }
 

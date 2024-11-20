@@ -1,3 +1,7 @@
+## 2.1.0
+- Few bits, and name convention
+- New `ViewModelStateImpl` for simple viewmodel state.
+
 ## 2.0.0
 ### Breaking Changes 🚨
 - Complete project architecture overhaul

@@ -35,7 +35,7 @@ A powerful, elegant, and type-safe state management solution for Flutter that se
 
 ```yaml
 dependencies:
-  reactive_notify: ^2.0.0
+  reactive_notify: ^2.1.0
 ```
 
 ## Quick Start

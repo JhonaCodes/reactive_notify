@@ -27,7 +27,7 @@ void main() {
 
       test('should update value with setState', () {
         final state = ReactiveNotify<int>(() => 0);
-        state.setState(10);
+        state.updateState(10);
         expect(state.value, 10);
       });
     });
@@ -41,7 +41,7 @@ void main() {
           notifiedValue = notify.value;
         });
 
-        notify.setState(5);
+        notify.updateState(5);
 
         expect(notifiedValue, equals(5));
       });
@@ -58,7 +58,7 @@ void main() {
           listener2Value = notify.value;
         });
 
-        notify.setState(10);
+        notify.updateState(10);
 
         expect(listener1Value, equals(10));
         expect(listener2Value, equals(10));
@@ -73,11 +73,11 @@ void main() {
         }
 
         notify.addListener(listener);
-        notify.setState(5);
+        notify.updateState(5);
         expect(listenerValue, equals(5));
 
         notify.removeListener(listener);
-        notify.setState(10);
+        notify.updateState(10);
         expect(listenerValue, equals(5)); // Should not have updated
       });
     });
@@ -120,14 +120,14 @@ void main() {
         final isEvenNotifier = ReactiveNotify<bool>(() => true);
 
         countNotifier.addListener(() {
-          isEvenNotifier.setState(countNotifier.value % 2 == 0);
+          isEvenNotifier.updateState(countNotifier.value % 2 == 0);
         });
 
-        countNotifier.setState(1);
+        countNotifier.updateState(1);
         expect(countNotifier.value, 1);
         expect(isEvenNotifier.value, false);
 
-        countNotifier.setState(2);
+        countNotifier.updateState(2);
         expect(countNotifier.value, 2);
         expect(isEvenNotifier.value, true);
       });
@@ -138,27 +138,27 @@ void main() {
         final weatherDescription = ReactiveNotify<String>(() => 'Freezing');
 
         temperatureCelsius.addListener(() {
-          temperatureFahrenheit.setState(temperatureCelsius.value * 9 / 5 + 32);
+          temperatureFahrenheit.updateState(temperatureCelsius.value * 9 / 5 + 32);
         });
 
         temperatureFahrenheit.addListener(() {
           if (temperatureFahrenheit.value < 32) {
-            weatherDescription.setState('Freezing');
+            weatherDescription.updateState('Freezing');
           } else if (temperatureFahrenheit.value < 65) {
-            weatherDescription.setState('Cold');
+            weatherDescription.updateState('Cold');
           } else if (temperatureFahrenheit.value < 80) {
-            weatherDescription.setState('Comfortable');
+            weatherDescription.updateState('Comfortable');
           } else {
-            weatherDescription.setState('Hot');
+            weatherDescription.updateState('Hot');
           }
         });
 
-        temperatureCelsius.setState(25); // 77°F
+        temperatureCelsius.updateState(25); // 77°F
         expect(temperatureCelsius.value, 25);
         expect(temperatureFahrenheit.value, closeTo(77, 0.1));
         expect(weatherDescription.value, 'Comfortable');
 
-        temperatureCelsius.setState(35); // 95°F
+        temperatureCelsius.updateState(35); // 95°F
         expect(temperatureCelsius.value, 35);
         expect(temperatureFahrenheit.value, closeTo(95, 0.1));
         expect(weatherDescription.value, 'Hot');
@@ -175,15 +175,15 @@ void main() {
 
         notifierA.addListener(() {
           updateCountA++;
-          notifierB.setState(notifierA.value + 1);
+          notifierB.updateState(notifierA.value + 1);
         });
 
         notifierB.addListener(() {
           updateCountB++;
-          notifierA.setState(notifierB.value + 1);
+          notifierA.updateState(notifierB.value + 1);
         });
 
-        notifierA.setState(1);
+        notifierA.updateState(1);
 
         expect(updateCountA, equals(1), reason: 'notifierA should update once');
         expect(updateCountB, equals(1), reason: 'notifierB should update once');
@@ -246,14 +246,14 @@ void main() {
       test('should handle complex object states', () {
         final complexState = ReactiveNotify<Map<String, dynamic>>(
             () => {'count': 0, 'name': 'Test'});
-        complexState.setState({'count': 1, 'name': 'Updated'});
+        complexState.updateState({'count': 1, 'name': 'Updated'});
         expect(complexState.value, {'count': 1, 'name': 'Updated'});
       });
 
       test('should handle null states', () {
         final nullableState = ReactiveNotify<int?>(() => null);
         expect(nullableState.value, isNull);
-        nullableState.setState(5);
+        nullableState.updateState(5);
         expect(nullableState.value, 5);
       });
 
@@ -263,8 +263,8 @@ void main() {
         stateTransition.addListener(() {
           transitionCount++;
         });
-        stateTransition.setState('processing');
-        stateTransition.setState('completed');
+        stateTransition.updateState('processing');
+        stateTransition.updateState('completed');
         expect(transitionCount, 2);
       });
     });
@@ -274,7 +274,7 @@ void main() {
         final asyncState = ReactiveNotify<String>(() => 'initial');
         Future<void> updateStateAsync() async {
           await Future.delayed(Duration(milliseconds: 100));
-          asyncState.setState('updated');
+          asyncState.updateState('updated');
         }
 
         updateStateAsync();
@@ -287,7 +287,7 @@ void main() {
         final concurrentState = ReactiveNotify<int>(() => 0);
         Future<void> incrementAsync() async {
           await Future.delayed(Duration(milliseconds: 50));
-          concurrentState.setState(concurrentState.value + 1);
+          concurrentState.updateState(concurrentState.value + 1);
         }
 
         await Future.wait(
@@ -301,8 +301,8 @@ void main() {
         final baseState = ReactiveNotify<int>(() => 1);
         final computedState = ReactiveNotify<int>(() => baseState.value * 2);
         baseState
-            .addListener(() => computedState.setState(baseState.value * 2));
-        baseState.setState(5);
+            .addListener(() => computedState.updateState(baseState.value * 2));
+        baseState.updateState(5);
         expect(computedState.value, 10);
       });
 
@@ -314,15 +314,15 @@ void main() {
             ReactiveNotify<int>(() => computed1.value + computed2.value);
 
         rootState.addListener(() {
-          computed1.setState(rootState.value + 1);
-          computed2.setState(rootState.value * 2);
+          computed1.updateState(rootState.value + 1);
+          computed2.updateState(rootState.value * 2);
         });
         computed1.addListener(
-            () => computed3.setState(computed1.value + computed2.value));
+            () => computed3.updateState(computed1.value + computed2.value));
         computed2.addListener(
-            () => computed3.setState(computed1.value + computed2.value));
+            () => computed3.updateState(computed1.value + computed2.value));
 
-        rootState.setState(5);
+        rootState.updateState(5);
         expect(computed1.value, 6);
         expect(computed2.value, 10);
         expect(computed3.value, 16);
@@ -334,9 +334,9 @@ void main() {
         final historicalState = ReactiveNotify<int>(() => 0);
         final history = <int>[];
         historicalState.addListener(() => history.add(historicalState.value));
-        historicalState.setState(1);
-        historicalState.setState(2);
-        historicalState.setState(3);
+        historicalState.updateState(1);
+        historicalState.updateState(2);
+        historicalState.updateState(3);
         expect(history, [1, 2, 3]);
       });
 
@@ -344,9 +344,9 @@ void main() {
         final undoableState = ReactiveNotify<int>(() => 0);
         final history = <int>[0];
         undoableState.addListener(() => history.add(undoableState.value));
-        undoableState.setState(1);
-        undoableState.setState(2);
-        undoableState.setState(history[history.length - 2]); // Undo
+        undoableState.updateState(1);
+        undoableState.updateState(2);
+        undoableState.updateState(history[history.length - 2]); // Undo
         expect(undoableState.value, 1);
       });
     });
@@ -355,7 +355,7 @@ void main() {
       test('should serialize and deserialize custom objects', () {
         final customState =
             ReactiveNotify<CustomObject>(() => CustomObject(1, 'initial'));
-        customState.setState(CustomObject(2, 'updated'));
+        customState.updateState(CustomObject(2, 'updated'));
         expect(customState.value.id, 2);
         expect(customState.value.name, 'updated');
       });
@@ -380,7 +380,7 @@ void main() {
         final updatedState = await receivePort.first;
 
         // Actualizar el estado en el isolate principal
-        isolateState.setState(updatedState as int);
+        isolateState.updateState(updatedState as int);
 
         expect(isolateState.value, 42);
       });
@@ -392,7 +392,7 @@ void main() {
         var updateCount = 0;
         optimizedState.addListener(() => updateCount++);
         for (var i = 0; i < 50; i++) {
-          optimizedState.setState(i);
+          optimizedState.updateState(i);
         }
 
         expect(updateCount, 49);
@@ -404,7 +404,7 @@ void main() {
         final injectedDependency = 'Injected Value';
         final dependentState = ReactiveNotify<String>(() => 'Initial');
         expect(dependentState.value, 'Initial');
-        dependentState.setState('Updated with $injectedDependency');
+        dependentState.updateState('Updated with $injectedDependency');
         expect(dependentState.value, 'Updated with Injected Value');
       });
     });
@@ -431,7 +431,7 @@ void main() {
         int notifications = 0;
         state.addListener(() => notifications++);
 
-        state.setState(42); //42;
+        state.updateState(42); //42;
         expect(notifications, 1);
         expect(state.value, 42);
       });
@@ -441,7 +441,7 @@ void main() {
         int notifications = 0;
         state.addListener(() => notifications++);
 
-        state.setState(42);
+        state.updateState(42);
         expect(notifications, 0);
       });
     });
@@ -458,8 +458,8 @@ void main() {
         orderState.addListener(() => notifications++);
 
         // Multiple updates
-        cartState.setState(CartState(2));
-        totalState.setState(TotalState(100.0));
+        cartState.updateState(CartState(2));
+        totalState.updateState(TotalState(100.0));
 
         expect(notifications, 2);
         expect(orderState.from<CartState>().items, 2);
@@ -485,11 +485,11 @@ void main() {
 
         combined.addListener(() => updates.add('combined'));
 
-        stateA.setState('A2');
+        stateA.updateState('A2');
         expect(stateA.value, 'A2');
         expect(combined.from<String>(stateA.keyNotifier), 'A2');
 
-        stateB.setState('B2');
+        stateB.updateState('B2');
         expect(stateB.value, 'B2');
         expect(combined.from<String>(stateB.keyNotifier), 'B2');
 
@@ -536,7 +536,7 @@ void main() {
         totalState.addListener(() => updates.add('total'));
 
         // Trigger update chain
-        userState.setState(UserState('Jane'));
+        userState.updateState(UserState('Jane'));
 
         expect(updates.length, 3);
         expect(updates, containsAllInOrder(['user', 'cart', 'total']));

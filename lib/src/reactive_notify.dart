@@ -104,14 +104,15 @@ Location: $trace
   }
 
   @override
-  void setState(T newState) {
+  void updateState(T newState) {
     if (value != newState) {
-      // Prevenir actualización circular
+
+      // Prevent circular update
       if (_updatingNotifiers.contains(this)) {
         return;
       }
 
-      // Verificar posible desbordamiento de notificaciones
+      // Check for possible notification overflow
       _checkNotificationOverflow();
 
       assert(() {
@@ -122,10 +123,11 @@ Location: $trace
       _updatingNotifiers.add(this);
 
       try {
-        // Actualizar valor y notificar
-        super.setState(newState);
 
-        // Notificar a los padres si existen
+        // Update value and notify
+        super.updateState(newState);
+
+        // Notify parents if they exist
         if (_parents.isNotEmpty) {
           assert(() {
             log('📤 Notifying parent states for $T', level: 10);
@@ -189,17 +191,18 @@ $_notificationCount notifications in ${_thresholdTimeWindow.inMilliseconds}ms
     }
   }
 
-  // Métodos privados para el formateo y validación
+  // Private methods for formatting and validation
   String _getLocationInfo() {
     try {
       final frames = StackTrace.current.toString().split('\n');
-      // Buscamos el primer frame que no sea de reactive_notify.dart
+
+      // We look for the first frame that is not from reactive_notify.dart
       final relevantFrame = frames.firstWhere(
         (frame) => !frame.contains('reactive_notify.dart'),
         orElse: () => frames.first,
       );
 
-      // Extraer información relevante del frame
+      // Extract relevant information from the frame
       final pattern = RegExp(r'package:([^/]+)/(.+)\.dart[: ](\d+)(?::(\d+))?');
       final match = pattern.firstMatch(relevantFrame);
 
@@ -342,14 +345,14 @@ ${_formatNotifierInfo(child)}
     final pathKeys = <Key>{};
     final ancestorKeys = <Key>{};
 
-    // Recolectar ancestros
+    // Collect ancestors
     if (root.related != null) {
       for (final related in root.related!) {
         _collectAncestors(related, ancestorKeys);
       }
     }
 
-    // Validar referencias
+    // Validate references
     pathKeys.add(root.keyNotifier);
     _validateNodeReferences(root, pathKeys, ancestorKeys);
     pathKeys.remove(root.keyNotifier);

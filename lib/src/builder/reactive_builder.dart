@@ -62,10 +62,10 @@ class _ReactiveBuilderState<T> extends State<ReactiveBuilder<T>> {
     }
   }
 
-  Widget _noRebuild(Widget builder) {
-    final key = builder.hashCode.toString();
+  Widget _noRebuild(Widget keep) {
+    final key = keep.hashCode.toString();
     if (!_noRebuildWidgets.containsKey(key)) {
-      _noRebuildWidgets[key] = _NoRebuildWrapper(builder: builder);
+      _noRebuildWidgets[key] = _NoRebuildWrapper(builder: keep);
     }
     return _noRebuildWidgets[key]!;
   }

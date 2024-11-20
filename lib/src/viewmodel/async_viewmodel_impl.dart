@@ -1,47 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:reactive_notify/src/handler/async_state.dart';
 
+/// Base ViewModel implementation for handling asynchronous operations with state management.
+///
+/// Provides a standardized way to handle loading, success, and error states for async data.
 abstract class AsyncViewModelImpl<T> extends ChangeNotifier {
   AsyncState<T> _state = AsyncState.initial();
   AsyncState<T> get state => _state;
+  Object? get error => _state.error;
+  StackTrace? get stackTrace => _state.stackTrace;
 
-  AsyncViewModelImpl() {
-    _initialize();
-  }
-
-  Future<void> _initialize() async {
-    await reload();
-  }
-
-  Future<void> reload() async {
-    setStateLoading();
-    try {
-      final result = await fetchData();
-      setStateSuccess(result);
-    } catch (e) {
-      setStateError(e);
+  AsyncViewModelImpl({bool loadOnInit = true}) {
+    if (loadOnInit) {
+      reload();
     }
   }
 
-  // Change state methods
   @protected
-  void setStateInitial() {
-    _setState(AsyncState.initial());
-  }
+  Future<void> reload() async {
+    if (_state.isLoading) return;
 
-  @protected
-  void setStateLoading() {
     _setState(AsyncState.loading());
+    try {
+      final result = await loadData();
+      _setState(AsyncState.success(result));
+    } catch (error, stackTrace) {
+      setError(error, stackTrace);
+    }
   }
 
+  /// Override this method to provide the async data loading logic
   @protected
-  void setStateSuccess(T data) {
+  Future<T> loadData();
+
+  @protected
+  void updateData(T data) {
     _setState(AsyncState.success(data));
   }
 
   @protected
-  void setStateError(Object error) {
-    _setState(AsyncState.error(error));
+  void setError(Object error, [StackTrace? stackTrace]) {
+    _setState(AsyncState.error(error, stackTrace));
   }
 
   void _setState(AsyncState<T> newState) {
@@ -49,5 +48,4 @@ abstract class AsyncViewModelImpl<T> extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<T> fetchData();
 }

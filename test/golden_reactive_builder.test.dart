@@ -48,7 +48,7 @@ void main() {
                 valueListenable: state,
                 builder: (context, value, child) {
                   if (value == 0) {
-                    state.setState(200);
+                    state.updateState(200);
                   }
                   return ListTile(
                     title: Text('ReactiveNotify.value = $value'),
@@ -93,7 +93,7 @@ void main() {
     expect(rebuildCount, 1); // Se ha construido una vez
 
     // Cambiar el valor del ValueNotifier
-    valueNotifier.setState(1);
+    valueNotifier.updateState(1);
     await tester.pump(); // Actualizar la UI
 
     // Verificar que el widget que se reconstruye ha cambiado

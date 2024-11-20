@@ -82,7 +82,7 @@ class MyApp extends StatelessWidget {
       floatingActionButton: OutlinedButton(
         onPressed: () {
           /// Variation unconnected and connected.
-          reactiveConnectionState.setState(
+          reactiveConnectionState.updateState(
               reactiveConnectionState.value == ConnectionState.connected
                   ? ConnectionState.unconnected
                   : ConnectionState.connected);
