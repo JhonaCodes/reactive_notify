@@ -5,7 +5,6 @@ import 'package:reactive_notify/reactive_notify.dart';
 /// For more details, check out the official package page:
 /// https://pub.dev/packages/reactive_notifier
 
-
 enum ConnectionState {
   connected,
   unconnected,
