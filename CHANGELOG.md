@@ -1,3 +1,6 @@
+## 2.1.1
+- Update name in favor of [reactive_notifier](https://pub.dev/packages/reactive_notifier)
+
 ## 2.1.0
 - Few bits, and name convention
 - New `ViewModelStateImpl` for simple viewmodel state.

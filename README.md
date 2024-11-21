@@ -1,11 +1,37 @@
+Aquí tienes una versión actualizada del README con la sección adicional para anunciar el cambio de nombre a **`reactive_notifier`**. He mantenido la estructura clara y profesional que ya tienes, además de destacar las diferencias y los estados de cada paquete.
+
+---
+
 # ReactiveNotify
 
-A powerful, elegant, and type-safe state management solution for Flutter that seamlessly integrates with MVVM pattern while maintaining complete independence from BuildContext. Perfect for applications of any size.
+A powerful, elegant, and type-safe state management solution for Flutter that seamlessly integrates with the MVVM pattern while maintaining complete independence from BuildContext. Perfect for applications of any size.
 
 [![pub package](https://img.shields.io/pub/v/reactive_notify.svg)](https://pub.dev/packages/reactive_notify)
 [![likes](https://img.shields.io/pub/likes/reactive_notify?logo=dart)](https://pub.dev/packages/reactive_notify/score)
 [![popularity](https://img.shields.io/pub/popularity/reactive_notify?logo=dart)](https://pub.dev/packages/reactive_notify/score)
 [![license](https://img.shields.io/github/license/jhonacodes/reactive_notify.svg)](https://github.com/jhonacodes/reactive_notify/blob/master/LICENSE)
+
+---
+
+## 📢 Important Notice: Renamed to ReactiveNotifier
+
+We’ve renamed this package to [`reactive_notifier`](https://pub.dev/packages/reactive_notifier) to better align with naming conventions and improve clarity. **`reactive_notify`** is now deprecated, and we strongly recommend transitioning to the updated package for future projects.
+
+### State of the Libraries
+
+| Package             | Status       | Version |
+|---------------------|--------------|---------|
+| **`reactive_notify`** | Deprecated   | 2.1.1   |
+| **[`reactive_notifier`](https://pub.dev/packages/reactive_notifier)** | Active       | 2.1.2   |
+
+The API remains unchanged, so you can upgrade to **`reactive_notifier`** seamlessly by simply updating your dependencies.
+
+```yaml
+dependencies:
+  reactive_notifier: ^2.1.2
+```
+
+---
 
 ## Features
 
@@ -30,15 +56,30 @@ A powerful, elegant, and type-safe state management solution for Flutter that se
 - [Debugging System](#debugging-system)
 - [Best Practices](#best-practices)
 - [Coming Soon](#coming-soon)
+- [Contributing](#contributing)
+- [License](#license)
 
 ## Installation
 
+To continue using the deprecated package:
+
 ```yaml
 dependencies:
-  reactive_notify: ^2.1.0
+  reactive_notify: ^2.1.1
 ```
 
+To switch to the updated version:
+
+```yaml
+dependencies:
+  reactive_notifier: ^2.1.2
+```
+
+---
+
 ## Quick Start
+
+**Note:** All examples in this documentation are compatible with both **`reactive_notify`** and **`reactive_notifier`**.
 
 ### Basic Usage
 
@@ -295,7 +336,7 @@ Notifier: CartState
 ❌ Problem: Excessive updates detected
 ✅ Solution: Review update logic and consider debouncing
 ```
-And more..
+And more...
 
 ## Best Practices
 
