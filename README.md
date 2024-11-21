@@ -17,16 +17,16 @@ We’ve renamed this package to [`reactive_notifier`](https://pub.dev/packages/r
 
 ### State of the Libraries
 
-| Package             | Status       | Version |
-|---------------------|--------------|---------|
-| **`reactive_notify`** | Deprecated   | 2.1.2   |
-| **[`reactive_notifier`](https://pub.dev/packages/reactive_notifier)** | Active       | 2.2.0   |
+| Package             | Status       | Version                                                                                                          |
+|---------------------|--------------|------------------------------------------------------------------------------------------------------------------|
+| **`reactive_notify`** | Deprecated   | [![pub package](https://img.shields.io/pub/v/reactive_notify.svg)](https://pub.dev/packages/reactive_notify)     |
+| **[`reactive_notifier`](https://pub.dev/packages/reactive_notifier)** | Active       | [![pub package](https://img.shields.io/pub/v/reactive_notifier.svg)](https://pub.dev/packages/reactive_notifier) |
 
 The API remains unchanged, so you can upgrade to **`reactive_notifier`** seamlessly by simply updating your dependencies.
 
 ```yaml
 dependencies:
-  reactive_notifier: ^2.2.0
+  reactive_notifier: latest # See version badge above
 ```
 
 ---
@@ -63,14 +63,14 @@ To continue using the deprecated package:
 
 ```yaml
 dependencies:
-  reactive_notify: ^2.2.0
+  reactive_notify: ^2.1.3
 ```
 
 To switch to the updated version:
 
 ```yaml
 dependencies:
-  reactive_notifier: ^2.1.2
+  reactive_notifier: latest # See version badge above
 ```
 
 ---

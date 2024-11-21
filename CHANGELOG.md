@@ -1,4 +1,7 @@
-## 2.1.1
+## 2.1.3
+- Some documentation updates.
+
+## 2.1.2
 - Update readme file.
 
 ## 2.1.1
