@@ -1,6 +1,4 @@
-Aquí tienes una versión actualizada del README con la sección adicional para anunciar el cambio de nombre a **`reactive_notifier`**. He mantenido la estructura clara y profesional que ya tienes, además de destacar las diferencias y los estados de cada paquete.
 
----
 
 # ReactiveNotify
 
@@ -21,14 +19,14 @@ We’ve renamed this package to [`reactive_notifier`](https://pub.dev/packages/r
 
 | Package             | Status       | Version |
 |---------------------|--------------|---------|
-| **`reactive_notify`** | Deprecated   | 2.1.1   |
-| **[`reactive_notifier`](https://pub.dev/packages/reactive_notifier)** | Active       | 2.1.2   |
+| **`reactive_notify`** | Deprecated   | 2.1.2   |
+| **[`reactive_notifier`](https://pub.dev/packages/reactive_notifier)** | Active       | 2.2.0   |
 
 The API remains unchanged, so you can upgrade to **`reactive_notifier`** seamlessly by simply updating your dependencies.
 
 ```yaml
 dependencies:
-  reactive_notifier: ^2.1.2
+  reactive_notifier: ^2.2.0
 ```
 
 ---
@@ -65,7 +63,7 @@ To continue using the deprecated package:
 
 ```yaml
 dependencies:
-  reactive_notify: ^2.1.1
+  reactive_notify: ^2.2.0
 ```
 
 To switch to the updated version:
